@@ -10,7 +10,7 @@
 
    //Create a connection to DB
    public function __construct() {
-     $this->conn = new mysqli("localhost", "root", "", "tastepad");
+     $this->conn = new mysqli("localhost", "root", "", "tastepada");
    }
 
    //Get result from running Query in DB
@@ -18,6 +18,9 @@
      $result = $this->conn->query($sql);
      return $result;
    }
+   public function __destruct() {
+	  $this->conn->close();
+    }
 
  }
 
