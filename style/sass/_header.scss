@@ -1,3 +1,64 @@
 body {
-  background-color: yellow;
+  margin: 0px;
+  padding: 0px;
+  background-color: $back-ground-color;
+  font-family: $main-font;
+}
+
+.wrapper {
+  width: 90%;
+  margin: auto;
+}
+
+button {
+  font-family: $sub-font;
+  border-radius: 25px;
+  border: none;
+  font-size: 12px;
+  padding: 5px 25px;
+}
+
+header, footer {
+  display: flex;
+  background: $header-bg-color;
+  justify-content: space-between;
+  border-radius: 50px;
+  align-items: center;
+  color: $text-color-1;
+  padding: 15px 35px;
+  box-shadow: 0px -1px 20px 15px #00000026;
+  font-family: $sub-font;
+}
+
+header {
+  margin-top: 15px;
+  .lo-search {
+    display: flex;
+    align-items: center;
+  }
+  .logo {
+    margin-right: 30px;
+    font-size: 18px;
+  }
+  .search-bar {
+    color: $text-color-2;
+    font-size: 12px;
+    .icon {
+      width: 12px;
+      position: absolute;
+      margin-top: 8px;
+      margin-left: 15px;
+      opacity: 0.75;
+    }
+    input {
+      background-color: $input-color-2;
+      border: none;
+      border-radius: 25px;
+      padding: 5px 35px;
+    }
+  }
+  button {
+    color: $text-color-2;
+    background-color: $btn-color-1;
+  }
 }
