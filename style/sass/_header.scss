@@ -28,6 +28,7 @@ header, footer {
   padding: 15px 35px;
   box-shadow: 0px -1px 20px 15px #00000026;
   font-family: $sub-font;
+  font-size: 18px;
 }
 
 header {
@@ -38,7 +39,6 @@ header {
   }
   .logo {
     margin-right: 30px;
-    font-size: 18px;
   }
   .search-bar {
     color: $text-color-2;
@@ -60,5 +60,15 @@ header {
   button {
     color: $text-color-2;
     background-color: $btn-color-1;
+  }
+}
+
+footer {
+  .wrap-foo {
+    display: flex;
+    font-size: 14px;
+    div {
+      margin-left: 20px;
+    }
   }
 }
