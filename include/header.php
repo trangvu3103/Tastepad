@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo&family=Manrope&display=swap" rel="stylesheet">
   </head>
   <body>
+    <?php include "include/form/login-form.php"; ?>
     <div class="wrapper">
       <header>
         <div class="lo-search">
