@@ -4,10 +4,7 @@
  * This is for all Recipe functions
  */
  
-require_once 'RecipeSteps.php';
-require_once 'Ingredients.php';
-
-class Recipe
+class Ingredients
 {
   //connection for Recipe
   protected $conn; 

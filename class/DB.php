@@ -10,7 +10,7 @@
 
    //Create a connection to DB
    public function __construct() {
-     $this->conn = new mysqli("localhost", "root", "", "tastepada");
+     $this->conn = new mysqli("localhost", "root", "", "tastepad");
    }
 
    //Get result from running Query in DB

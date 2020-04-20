@@ -14,36 +14,36 @@
             <span id="signup-flip">Sign up</span>
           </div>
           <!-- Do not remove form id -->
-          <form id="login-form" class="">
+          <form id="login-form" class="" method="post" action="login.php">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="text" class="form-control" id="email" placeholder="My email is...">
+              <input name="email" type="text" class="form-control" id="email" placeholder="My email is...">
             </div>
             <div class="form-group">
               <label for="Password">Password</label>
-              <input type="text" class="form-control" id="pass" placeholder="Password is...">
+              <input name="password" type="text" class="form-control" id="pass" placeholder="Password is...">
             </div>
-            <button type="button" name="login" id="log-in-btn">Login</button>
+            <button type="submit" name="login" id="log-in-btn">Login</button>
           </form>
           <!-- Do not remove form id -->
-          <form id="signup-form" class="form-deactive">
+          <form id="signup-form" class="form-deactive" method="post" action="login.php">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+              <input name="email" type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
             </div>
             <div class="form-group">
               <label for="full-name">Full name</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="full-name" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
             </div>
             <div class="form-group">
               <label for="pass">Password</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="pass" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
             </div>
             <div class="form-group">
               <label for="re=pass">Re-enter password</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="re-pass" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
             </div>
-            <button type="button" name="signup" id="sign-up-btn">Sign up</button>
+            <button type="submit" name="signup" id="sign-up-btn">Sign up</button>
           </form>
         </div>
       </div>

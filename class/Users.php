@@ -3,8 +3,8 @@
  * Class: User
  * This is for all user functions
  */
-
-class User
+require_once 'DB.php';
+class user
 {
   //user for connection
   protected $conn; 
@@ -22,13 +22,15 @@ class User
   }
 
   public function register($email = null, $fullName = null, $pw = null, $pw1 = null){
-    $verifyCreateAccount = $this->verifyCreateAccount($email, $password);
+    $verifyCreateAccount = $this->verifyCreateAccount($email, $fullName, $pw, $pw1);
     if($verifyCreateAccount==0){
-      $_SESSION['user_name'] = $this->user_info['userName']);
+      $this->createAccount($email, $fullName, $pw);
+      $_SESSION['user_ID'] = $this->user_info['userID'];
+      $_SESSION['user_name'] = $this->user_info['userName'];
       $_SESSION['isLoggin'] = true;
-      $_SESSION['role'] = $this->user_info['userRole']);
+      $_SESSION['role'] = $this->user_info['userRole'];
 
-      header('Location: gallery.php');
+      header('Location: home-page.php');
       return 0;
     }
     //when error occur delete connection?
@@ -42,11 +44,11 @@ class User
   public function login($email = null, $password = null){
     $verifyLogin = $this->verifyLogin($email, $password);
     if($verifyLogin==0){
-      $_SESSION['user_name'] = $this->user_info['userName']);
+      $_SESSION['user_name'] = $this->user_info['userName'];
       $_SESSION['isLoggin'] = true;
-      $_SESSION['role'] = $this->user_info['userRole']);
+      $_SESSION['role'] = $this->user_info['userRole'];
 
-      header('Location: gallery.php');
+      header('Location:home-page.php');
       return 0;
     }
     //when error occur delete connection?
@@ -58,12 +60,12 @@ class User
   }
 
   public function verifyLogin($email = null, $password = null){
-    if ($email == null) {
+    if (!$email) {
       $this->err[] = "Xin vui lòng nhập email";
       return 1;
     }
     
-    if ($password == null) {
+    if (!$password) {
       $this->err[] = "Xin vui lòng nhập password";
       return 1;
     }
@@ -87,27 +89,27 @@ class User
   }
 
   public function verifyCreateAccount($email = null, $fullName = null, $pw = null, $pw1 = null){
-    if ($email == null) {
+    if (!$email) {
       $this->err[] = "Xin vui lòng nhập email";
       return 1;
     }
     
-    if ($fullName == null|| strlen($fullName)>0) {
+    if (!$fullName || strlen($fullName)<1) {
       $this->err[] = "Xin vui lòng nhập Full name";
       return 1;
     }
     
-    if ($pw == null) {
+    if (!$pw) {
       $this->err[] = "Xin vui lòng nhập Password";
       return 1;
     }
     
-    if ($pw1 == null) {
+    if (!$pw1) {
       $this->err[] = "Xin vui lòng nhập Re-enter password";
       return 1;
     }
 
-    if (filter_var($email,FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
       $this->err[]="Email không hợp lệ. Xin nhập lại Email";
       return 1;
     }
@@ -126,12 +128,19 @@ class User
 
   }
 
+  public function createAccount($email = null, $fullName = null, $pw = null)
+  {
+    $pw = password_hash($pw, PASSWORD_DEFAULT);
+    $sql="INSERT INTO users values(DEFAULT, '$fullName', '$email', '$pw', '', '', '', 1, DEFAULT, DEFAULT, DEFAULT)";
+    $this->conn->query($sql);
+  }
+
   public function findEmail($email=null)
   {
     if ($email==null) {
       return null;
     }
-    $sql = "SELECT * FROM users WHERE user_email = '$email'";
+    $sql = "SELECT * FROM users WHERE userEmail = '$email'";
     $result = $this->conn->query($sql);
     $this->user_info = $result->fetch_assoc();
     return $result->num_rows;
