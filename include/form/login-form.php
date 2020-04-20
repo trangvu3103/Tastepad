@@ -9,9 +9,14 @@
       <div class="col-md-6">
         <div class="login-form">
           <div class="flipper">
-            <span id="login-flip">Log in</span>
-            <span>/</span>
-            <span id="signup-flip">Sign up</span>
+            <div class="flip-wrap">
+              <span id="login-flip">Log in</span>
+              <span>/</span>
+              <span id="signup-flip">Sign up</span>
+            </div>
+            <div class="closer" id="closer">
+              <img src="img/icon/closer.png" alt="">
+            </div>
           </div>
           <!-- Do not remove form id -->
           <form id="login-form" class="" method="post" action="login.php">
