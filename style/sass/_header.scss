@@ -76,3 +76,13 @@ footer {
 .form-deactive {
   display: none;
 }
+
+.form-active {
+
+}
+
+#login-sec {
+  position: fixed;
+  width: 100%;
+  background-color: $overlay-bg-color;
+}
