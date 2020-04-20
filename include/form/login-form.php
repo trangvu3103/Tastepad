@@ -22,33 +22,33 @@
           <form id="login-form" class="">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="text" class="form-control" id="email" placeholder="My email is...">
+              <input name="email" type="text" class="form-control" id="email" placeholder="My email is...">
             </div>
             <div class="form-group">
               <label for="Password">Password</label>
-              <input type="text" class="form-control" id="pass" placeholder="Password is...">
+              <input name="password" type="text" class="form-control" id="pass" placeholder="Password is...">
             </div>
-            <button type="button" name="login" id="log-in-btn">Login</button>
+            <button type="submit" name="login" id="log-in-btn">Login</button>
           </form>
           <!-- Do not remove form id -->
           <form id="signup-form" class="form-deactive">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+              <input name="email" type="text" class="form-control" placeholder="My email is...">
             </div>
             <div class="form-group">
               <label for="full-name">Full name</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="full-name" type="text" class="form-control" placeholder="My full name is...">
             </div>
             <div class="form-group">
               <label for="pass">Password</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="pass" type="text" class="form-control" placeholder="Password is...">
             </div>
             <div class="form-group">
               <label for="re=pass">Re-enter password</label>
-              <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="re-pass" type="text" class="form-control" placeholder="Re-enter password...">
             </div>
-            <button type="button" name="signup" id="sign-up-btn">Sign up</button>
+            <button type="submit" name="signup" id="sign-up-btn">Sign up</button>
           </form>
         </div>
       </div>
