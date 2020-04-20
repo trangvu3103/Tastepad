@@ -42,25 +42,90 @@ class Recipe
     $this->verifyAddRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps);
   }
 
+  public function updateRecipe($RID, $RName = null, $RBio = null, $RImgs = null, $RIngredients = null, $RSteps = null)
+  {
+    
+  }
+
   public function deleteRecipe($RID)
   {
     
   }
 
-  public function verifyAddRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps)
+  public function verifyAddRecipe($RName, $RImgs, $RIngredients, $RSteps)
+  {
+    if (!$RName) {
+      $this->err[] = "Người dùng chưa nhập tên món";
+      return 1;
+    }
+    if (findRecipeByName($RName)) {
+      $this->err[] = "Tên món ăn này đã được sử dụng. Xin chọn tên khác";
+      return 1;
+    }
+    if (!$RImgs) {
+      $this->err[] = "Món ăn thời nay hay cần được tự sướng. Xin nhập hình ảnh món ăn";
+      return 1;
+    }
+    if (!$RIngredients) {
+      $this->err[] = "How to nấu khi thiếu nguyên liệu. Xin nhập nguyên liệu nấu ăn";
+      return 1;
+    }
+    if (!$RSteps) {
+      $this->err[] = "Chỉ cần nhìn bạn có thể biến nguyên liệu thành món ăn, thần thánh dữ? Xin hãy nhập phần công thức nấu ăn";
+      return 1;
+    }
+  }
+
+  public function addSteps($RSteps)
   {
     
   }
 
-  public function addSteps()
+  public function addIngredients($RIngredients)
   {
     
   }
 
-  public function addIngredients()
+  public function findRecipeByName($RName)
+  {
+    if (!$RName) {
+      return null;
+    }
+    $sql = "SELECT * FROM recipes WHERE recipeName = '$RName'";
+    $result = $this->conn->query($sql);
+    $this->user_info = $result->fetch_assoc();
+    return $result->num_rows;
+  }
+
+  public function findRecipeByID($RID)
+  {
+    if (!$RID) {
+      return null;
+    }
+    $sql = "SELECT * FROM recipes WHERE recipeID = '$RID'";
+    $result = $this->conn->query($sql);
+    $this->user_info = $result->fetch_assoc();
+    return $result->num_rows;
+  }
+
+  public function likeRecipe($RID)
   {
     
   }
 
+  public function saveRecipe($RID)
+  {
+    
+  }
+
+  public function unlikeRecipe($RID)
+  {
+    
+  }
+
+  public function unsaveRecipe($RID)
+  {
+    
+  }
 }
  ?>

@@ -4,7 +4,7 @@
  * This is for all Recipe functions
  */
  
-class RecipeStep
+class Step
 {
   //connection for Recipe
   protected $conn; 
@@ -21,40 +21,24 @@ class RecipeStep
     $this->err=[];
   }
 
-  public function getAllRecipes()
+  public function getStepsOfRecipeID($RID)
   {
-    $sql = "SELECT * FROM users u, recipes r, recipeimages ri WHERE 'u.userID' = 'r.userID' and 'r.recipeID' = 'ri.recipeID'";
+    $sql = "SELECT * FROM steps WHERE recipeID = '$RID' ORDER BY stepNumber";
     $result = $this->conn->query($sql);
 
   }
 
-  public function getRecipeByID($RID)
-  {
-    $sql = "SELECT * FROM users u, recipes r, recipeimages ri WHERE 'u.userID' = 'r.userID' and 'r.recipeID' = 'ri.recipeID' and 'r.recipeID' = '$RID'";
-    $result = $this->conn->query($sql);
-  }
-
-  public function addRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps)
-  {
-    $this->verifyAddRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps);
-  }
-
-  public function deleteRecipe($RID)
+  public function addStep($RID, $RStep)
   {
     
   }
 
-  public function verifyAddRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps)
+  public function deleteStep($RID,$RStep)
   {
     
   }
 
-  public function addSteps()
-  {
-    
-  }
-
-  public function addIngredients()
+  public function updateStep($RID, $RStep)
   {
     
   }

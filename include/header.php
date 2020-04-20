@@ -3,6 +3,7 @@ foreach (glob(dirname(dirname(__FILE__))."/class/*.php") as $filename)
 {
     include_once $filename;
 }
+define('root', $_SERVER['DOCUMENT_ROOT']."/Tastepad/");
 
 $currentPage = basename($_SERVER['SCRIPT_FILENAME'], ".php");
 

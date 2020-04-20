@@ -37,7 +37,7 @@ class Member extends User
     
   }
 
-  public function updateUserName($userName)
+  public function updateUserName($userID, $userName)
   {
     
   }
@@ -47,12 +47,12 @@ class Member extends User
     
   }
 
-  public function updateUserAvatar($userAvatar)
+  public function updateUserAvatar($userID, $userAvatar)
   {
     
   }
 
-  public function updateUserBG($userBG)
+  public function updateUserBG($userID, $userBG)
   {
     
   }

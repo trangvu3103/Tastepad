@@ -44,6 +44,7 @@ class user
   public function login($email = null, $password = null){
     $verifyLogin = $this->verifyLogin($email, $password);
     if($verifyLogin==0){
+      $_SESSION['user_ID'] = $this->user_info['userID'];
       $_SESSION['user_name'] = $this->user_info['userName'];
       $_SESSION['isLoggin'] = true;
       $_SESSION['role'] = $this->user_info['userRole'];
@@ -151,29 +152,29 @@ class user
     return $this->user_info;
   }
 
-//   // get and set name for user class
-//   public function gsetName ($name=null){
-//     if($name!=null){
-//       $user_name = $name;
-//     }
-//     return $user_name;
-//   }
+  // get and set name for user class
+  public function gsetName ($name=null){
+    if($name!=null){
+      $user_name = $name;
+    }
+    return $user_name;
+  }
 
-//   // get and set email for user class
-//   public function gsetEmail ($email=null){
-//     if($email!=null){
-//       $user_email = $email;
-//     }
-//     return $user_email;
-//   }
+  // get and set email for user class
+  public function gsetEmail ($email=null){
+    if($email!=null){
+      $user_email = $email;
+    }
+    return $user_email;
+  }
 
-// // get and set role for user class
-//   public function gsetRole ($role=null){
-//     if($role!=null){
-//       $user_role = $role;
-//     }
-//     return $user_role;
-//   }
+// get and set role for user class
+  public function gsetRole ($role=null){
+    if($role!=null){
+      $user_role = $role;
+    }
+    return $user_role;
+  }
 
 }
  ?>

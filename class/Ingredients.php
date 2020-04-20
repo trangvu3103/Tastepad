@@ -21,40 +21,23 @@ class Ingredients
     $this->err=[];
   }
 
-  public function getAllRecipes()
+  public function getIngredientsByRID($RID)
   {
     $sql = "SELECT * FROM users u, recipes r, recipeimages ri WHERE 'u.userID' = 'r.userID' and 'r.recipeID' = 'ri.recipeID'";
     $result = $this->conn->query($sql);
 
   }
 
-  public function getRecipeByID($RID)
+  public function addIngredients($IName,$RID)
   {
-    $sql = "SELECT * FROM users u, recipes r, recipeimages ri WHERE 'u.userID' = 'r.userID' and 'r.recipeID' = 'ri.recipeID' and 'r.recipeID' = '$RID'";
-    $result = $this->conn->query($sql);
+
   }
 
-  public function addRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps)
-  {
-    $this->verifyAddRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps);
-  }
-
-  public function deleteRecipe($RID)
+  public function deleteIngredients($RID)
   {
     
   }
-
-  public function verifyAddRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps)
-  {
-    
-  }
-
-  public function addSteps()
-  {
-    
-  }
-
-  public function addIngredients()
+  public function updateSteps($RID,$IID)
   {
     
   }
