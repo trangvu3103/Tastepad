@@ -34,19 +34,19 @@
           <form id="signup-form" class="form-deactive" method="post" action="login.php">
             <div class="form-group">
               <label for="email">Email</label>
-              <input name="email" type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+              <input name="email" type="text" class="form-control" placeholder="My email is...">
             </div>
             <div class="form-group">
               <label for="full-name">Full name</label>
-              <input name="full-name" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="full-name" type="text" class="form-control" placeholder="My full name is...">
             </div>
             <div class="form-group">
               <label for="pass">Password</label>
-              <input name="pass" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="pass" type="text" class="form-control" placeholder="Password is...">
             </div>
             <div class="form-group">
               <label for="re=pass">Re-enter password</label>
-              <input name="re-pass" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+              <input name="re-pass" type="text" class="form-control" placeholder="Re-enter password...">
             </div>
             <button type="submit" name="signup" id="sign-up-btn">Sign up</button>
           </form>
