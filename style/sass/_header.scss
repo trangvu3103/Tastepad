@@ -5,6 +5,18 @@ body {
   font-family: $main-font;
 }
 
+a {
+  color: $text-color-2;
+  &:hover {
+    text-decoration: none;
+    color: $text-color-2;
+  }
+}
+
+ul li {
+  list-style: none;
+}
+
 .wrapper {
   width: 90%;
   margin: auto;
