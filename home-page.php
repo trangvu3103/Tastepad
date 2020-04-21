@@ -71,8 +71,10 @@
           </div>
         </div>
       </div>
-      <!-- recipe list -->
-      <?php include 'include\contests.php'; ?>
+      <!-- recipe list, contest list -->
+      <?php //include 'include\contests.php';
+        include 'include\recipes.php';
+      ?>
     </div>
     <div class="page">
       <nav aria-label="Page navigation example">
