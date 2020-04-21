@@ -49,7 +49,7 @@ class user
       $_SESSION['isLoggin'] = true;
       $_SESSION['role'] = $this->user_info['userRole'];
 
-      header('Location:home-page.php');
+      // header('Location:home-page.php');
       return 0;
     }
     //when error occur delete connection?
@@ -61,18 +61,18 @@ class user
   }
 
   public function verifyLogin($email = null, $password = null){
-    if (!$email) {
+    if (!$email || !filter_var($email,FILTER_VALIDATE_EMAIL)) {
       $this->err[] = "Xin vui lòng nhập email";
+      return 1;
+    }
+    
+    if(!$this->findEmail($email)){
+      $this->err[] = "Không tìm thấy Email. Xin nhập lại Email";
       return 1;
     }
     
     if (!$password) {
       $this->err[] = "Xin vui lòng nhập password";
-      return 1;
-    }
-
-    if(!$this->findEmail($email)){
-      $this->err[] = "Không tìm thấy Email. Xin nhập lại Email";
       return 1;
     }
 
@@ -144,7 +144,7 @@ class user
     $sql = "SELECT * FROM users WHERE userEmail = '$email'";
     $result = $this->conn->query($sql);
     $this->user_info = $result->fetch_assoc();
-    return $result->num_rows;
+    return $result->num_rows?$result->num_rows:false;
   }
 
   // get user info for user class
