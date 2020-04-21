@@ -6,7 +6,7 @@ $(document).ready(function($) {
 		/* Act on the event */
 		event.preventDefault();
         $.ajax({
-            url: 'login.php',
+            url: 'include/login.php',
             type: 'POST',
             dataType:"json",
             data: {
