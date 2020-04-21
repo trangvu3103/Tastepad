@@ -30,6 +30,9 @@
               <label for="Password">Password</label>
               <input name="password" type="text" class="form-control" id="pass" placeholder="Password is...">
             </div>
+            <!-- <div class="err">
+              * This is error message
+            </div> -->
             <button type="submit" name="login" id="log-in-btn">Login</button>
           </form>
           <!-- Do not remove form id -->
@@ -50,6 +53,9 @@
               <label for="re=pass">Re-enter password</label>
               <input name="re-pass" type="text" class="form-control" placeholder="Re-enter password...">
             </div>
+            <!-- <div class="err">
+              This is error message
+            </div> -->
             <button type="submit" name="signup" id="sign-up-btn">Sign up</button>
           </form>
         </div>
