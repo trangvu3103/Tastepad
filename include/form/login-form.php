@@ -3,14 +3,16 @@
     <div class="row">
       <div class="col-md-6">
         <div class="login-txt" id="login-txt">
-          Login to begin your journey!
+          <div>
+            Login to begin your journey!
+          </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="login-form">
           <div class="flipper">
             <div class="flip-wrap">
-              <span id="login-flip">Log in</span>
+              <span id="login-flip" class="flipper-active">Log in</span>
               <span>/</span>
               <span id="signup-flip">Sign up</span>
             </div>

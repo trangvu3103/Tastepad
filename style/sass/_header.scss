@@ -73,16 +73,128 @@ footer {
   }
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .form-deactive {
   display: none;
 }
 
-.form-active {
+.form-fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
 
+.form-active {
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
 }
 
 #login-sec {
-  position: fixed;
+  position: absolute;
+  top: 0;
   width: 100%;
-  background-color: $overlay-bg-color;
+  height: 100%;
+  background-color: #5e6d6de0;
+  z-index: 1;
+  color: $text-color-2;
+  font-family: $sub-font;
+  box-shadow: 0px -1px 20px 15px #00000026;
+  .wrapper {
+    background-color: $form-bg-color;
+    margin-top: 190px;
+    width: 70%;
+  }
+  #login-txt {
+    display: flex;
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    text-align: center;
+    font-weight: bold;
+    &:before {
+      content: " ";
+      border: 2px solid $line-color;
+      position: absolute;
+      top: 30px;
+      bottom: 30px;
+      right: 0px;
+    }
+  }
+  .flipper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95%;
+    margin: auto;
+    margin-top: 15px;
+    img {
+      width: 35px;
+    }
+  }
+  .flipper-active {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  form {
+    margin: auto;
+    width: 95%;
+    label {
+        font-weight: bold;
+        color: $text-color-3;
+        font-size: 18px;
+    }
+    input {
+      background-color: $input-color-2;
+      border: none;
+      border-radius: 25px;
+      padding: 5px 15px;
+      font-size: 16px;
+    }
+    button {
+      background-color: $btn-color-2;
+      color: $text-color-1;
+    }
+  }
+  #login-form {
+    margin-top: 100px;
+  }
+  #signup-form {
+    margin-top: 25px;
+  }
 }
