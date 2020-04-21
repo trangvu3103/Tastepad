@@ -113,7 +113,7 @@
   }
 }
 
-.recipe-card {
+.recipe-card, .contest-card {
   color: $text-color-2;
   font-family: $sub-font;
   h2 {
@@ -121,6 +121,9 @@
     font-weight: 500;
     margin-top: 15px;
   }
+}
+
+.recipe-card {
   .info {
     margin-top: 10px;
   }
@@ -140,5 +143,24 @@
   .like img {
     width: 25px;
     margin-left: 10px;
+  }
+}
+
+.contest-card .date {
+  font-size: 16px;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  border: none;
+  font-family: $sub-font;
+  font-weight: bold;
+  a.page-link {
+    border: none;
+    color: $text-color-3;
+  }
+  ul.pagination {
+    margin-left: 275px;
   }
 }
