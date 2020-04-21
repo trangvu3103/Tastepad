@@ -8,5 +8,37 @@
     width: 100%;
     height: 600px;
   }
+}
 
+#recipe-ls-sec {
+  .header-ls {
+    font-family: $sub-font;
+    color: $text-color-2;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 30px;
+    #sort-btn {
+      width: 180px;
+      background-color: $btn-color-2;
+      color: $text-color-1;
+      font-size: 14px;
+    }
+    a.dropdown-item.sort-option {
+      font-size: 14px;
+    }
+    .sort {
+      display: flex;
+      align-items: center;
+      div:first-child {
+        font-size: 16px;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+    }
+    .cate-tag {
+      font-weight: bold;
+      font-size: 46px;
+    }
+  }
 }

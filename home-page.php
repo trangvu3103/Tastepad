@@ -29,6 +29,27 @@
   </div>
 </section>
 
-
+<section id="recipe-ls-sec">
+  <div class="header-ls">
+    <div class="cate-tag">
+      Categories
+    </div>
+    <div class="sort">
+      <div class="">
+        Sort by:
+      </div>
+      <div class="dropdown">
+        <button class="btn-secondary dropdown-toggle" type="button" id="sort-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Most popular
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item sort-option" href="#">Newest</a>
+          <a class="dropdown-item sort-option" href="#">Oldest</a>
+          <a class="dropdown-item sort-option" href="#">Most popular</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <?php include 'include/footer.php'; ?>
