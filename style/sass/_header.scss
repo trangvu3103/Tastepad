@@ -190,6 +190,9 @@ footer {
       background-color: $btn-color-2;
       color: $text-color-1;
     }
+    .err {
+      color: red;
+    }
   }
   #login-form {
     margin-top: 100px;
