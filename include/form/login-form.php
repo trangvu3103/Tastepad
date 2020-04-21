@@ -21,7 +21,7 @@
             </div>
           </div>
           <!-- Do not remove form id -->
-          <form id="login-form" class="">
+          <form id="login-form" class="" method="post" action="login.php">
             <div class="form-group">
               <label for="email">Email</label>
               <input name="email" type="text" class="form-control" id="email" placeholder="My email is...">
@@ -33,7 +33,7 @@
             <button type="submit" name="login" id="log-in-btn">Login</button>
           </form>
           <!-- Do not remove form id -->
-          <form id="signup-form" class="form-deactive">
+          <form id="signup-form" class="form-deactive" method="post" action="login.php">
             <div class="form-group">
               <label for="email">Email</label>
               <input name="email" type="text" class="form-control" placeholder="My email is...">

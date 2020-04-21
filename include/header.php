@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+foreach (glob(dirname(dirname(__FILE__))."/class/*.php") as $filename)
+{
+    include_once $filename;
+}
+
+$currentPage = basename($_SERVER['SCRIPT_FILENAME'], ".php");
+
+
+ ?>
+ <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
