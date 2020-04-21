@@ -1,3 +1,8 @@
+<?php 
+if(file_exists($_SERVER['DOCUMENT_ROOT']."/login.php")){
+  include_once $_SERVER['DOCUMENT_ROOT'].'/login.php';
+}
+ ?>
 <section class="form-deactive" id="login-sec">
   <div class="wrapper">
     <div class="row">
@@ -21,7 +26,7 @@
             </div>
           </div>
           <!-- Do not remove form id -->
-          <form id="login-form" class="" method="post" action="login.php">
+          <form id="login-form" class="" method="post" action="">
             <div class="form-group">
               <label for="email">Email</label>
               <input name="email" type="text" class="form-control" id="email" placeholder="My email is...">
@@ -30,10 +35,10 @@
               <label for="Password">Password</label>
               <input name="password" type="text" class="form-control" id="pass" placeholder="Password is...">
             </div>
-            <button type="submit" name="login" id="log-in-btn">Login</button>
+            <button type="button" name="login" id="log-in-btn">Login</button>
           </form>
           <!-- Do not remove form id -->
-          <form id="signup-form" class="form-deactive" method="post" action="login.php">
+          <form id="signup-form" class="form-deactive" method="post" action="">
             <div class="form-group">
               <label for="email">Email</label>
               <input name="email" type="text" class="form-control" placeholder="My email is...">
@@ -50,7 +55,7 @@
               <label for="re=pass">Re-enter password</label>
               <input name="re-pass" type="text" class="form-control" placeholder="Re-enter password...">
             </div>
-            <button type="submit" name="signup" id="sign-up-btn">Sign up</button>
+            <button type="button" name="signup" id="sign-up-btn">Sign up</button>
           </form>
         </div>
       </div>
