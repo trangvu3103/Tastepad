@@ -1,4 +1,4 @@
-#detail-sec {
+#detail-sec, #recipe-form-sec {
   margin-top: 50px;
   color: $text-color-2;
   .author, .like {
@@ -147,5 +147,34 @@
     margin: auto;
     color: $text-color-1;
     background-color: $btn-color-3;
+  }
+}
+
+#recipe-form-sec {
+  .btn-remove-step, .btn-remove-ingre {
+    background-color: #e66767;
+    font-size: 20px;
+    color: $text-color-1;
+  }
+  .btn-add-ingre, .btn-more-step {
+    color: $text-color-1;
+    background-color: $btn-color-3;
+  }
+  .add-ingre {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    input {
+      width: 80%;
+    }
+  }
+  .post-btn {
+    display: flex;
+    margin-top: 50px;
+    button {
+      color: $text-color-1;
+      background-color: $btn-color-3;
+      margin: auto;
+    }
   }
 }
