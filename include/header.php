@@ -22,7 +22,7 @@ include_once 'config.php';
       <header>
         <div class="lo-search">
           <div class="logo">
-            Tastepad
+            <a href="<?= root ?>home-page.php">Tastepad</a>
           </div>
           <div class="search-bar-div">
             <form class="search-bar" action="index.html" method="post">
