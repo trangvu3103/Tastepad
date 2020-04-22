@@ -23,7 +23,10 @@ $(document).ready(function($) {
         			  path.length = path.length - 1;
         			}
         			var app = path[path.length-2]; // if you just want 'three'
-        			window.location.href = '../'+app+"/home-page";
+
+        			console.log(response.sess);
+        			var get = "?uid="+response.sess.user_ID+"&name="+response.sess.user_name+"&avartar="+response.sess.avartar+"&isLoggin="+response.sess.isLoggin+"&role="+response.sess.role;
+        			window.location.href = '../'+app+"/home-page"+get;
         			// var app = path.join('/'); //  if you want the whole thing like '/one/two/three'
 
         		}
@@ -56,7 +59,7 @@ $(document).ready(function($) {
         			  path.length = path.length - 1;
         			}
         			var app = path[path.length-2]; // if you just want 'three'
-        			window.location.href = '../'+app+"/home-page";
+        			// window.location.href = '../'+app+"/home-page";
         			// window.location.href = "http://example.com/new_url";
         		}
             	// if (response.err) {

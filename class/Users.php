@@ -3,6 +3,7 @@
  * Class: User
  * This is for all user functions
  */
+require_once 'sessions.php';
 require_once 'DB.php';
 class user
 {
@@ -25,10 +26,11 @@ class user
     $verifyCreateAccount = $this->verifyCreateAccount($email, $fullName, $pw, $pw1);
     if($verifyCreateAccount==0){
       $this->createAccount($email, $fullName, $pw);
-      $_SESSION['user_ID'] = $this->user_info['userID'];
-      $_SESSION['user_name'] = $this->user_info['userName'];
-      $_SESSION['isLoggin'] = true;
-      $_SESSION['role'] = $this->user_info['userRole'];
+      Session::set('user_ID', $this->user_info['userID']);
+      Session::set('user_name', $this->user_info['userName']);
+      Session::set('avartar', $this->user_info[' userAvatar']);
+      Session::set('isLoggin', true);
+      Session::set('role', $this->user_info['userRole']);
 
       // header('Location: home-page.php');
       return 0;
@@ -44,12 +46,11 @@ class user
   public function login($email = null, $password = null){
     $verifyLogin = $this->verifyLogin($email, $password);
     if($verifyLogin==0){
-
-      $_SESSION['user_ID'] = $this->user_info['userID'];
-      $_SESSION['user_name'] = $this->user_info['userName'];
-      $_SESSION['isLoggin'] = true;
-      $_SESSION['role'] = $this->user_info['userRole'];
-
+      Session::set('user_ID', $this->user_info['userID']);
+      Session::set('user_name', $this->user_info['userName']);
+      Session::set('avartar', $this->user_info['userAvatar']);
+      Session::set('isLoggin', true);
+      Session::set('role', $this->user_info['userRole']);
       // header('Location:home-page.php');
       return 0;
     }
@@ -83,7 +84,7 @@ class user
     }
 
     if(!password_verify($password, $this->user_info['userPassword'])){
-      $this->err[] = "Wrong password. Please enter your password again";
+      $this->err[] = (password_verify($password, $this->user_info['userPassword'])."Wrong password. Please enter your password again");
       return 1;
     }
 
@@ -116,6 +117,11 @@ class user
       return 1;
     }
     
+    if($this->findUserName($fullName)){
+      $this->err[] = "This name has been registered. Please re-enter the name";
+      return 1;
+    }
+    
     if (!$pw) {
       $this->err[] = "Please enter your password";
       return 1;
@@ -139,7 +145,8 @@ class user
   {
     $pw = password_hash($pw, PASSWORD_DEFAULT);
     $sql="INSERT INTO users values(DEFAULT, '$fullName', '$email', '$pw', '', '', '', 1, DEFAULT, DEFAULT, DEFAULT)";
-    $this->conn->query($sql);
+    $result = $this->conn->query($sql);
+    return ($result && $result->num_rows)?$result->num_rows:false;
   }
 
   public function findEmail($email=null)
@@ -150,20 +157,20 @@ class user
     $sql = "SELECT * FROM users WHERE userEmail = '$email'";
     $result = $this->conn->query($sql);
     if ($result) {
-      $this->Rinfo = $result->fetch_assoc();
+      $this->user_info = $result->fetch_assoc();
     }
     return ($result && $result->num_rows)?$result->num_rows:false;
   }
 
   public function findUserName($name=null)
   {
-    if ($email==null) {
+    if ($name==null) {
       return null;
     }
     $sql = "SELECT * FROM users WHERE userName = '$name'";
     $result = $this->conn->query($sql);
     if ($result) {
-      $this->Rinfo = $result->fetch_assoc();
+      $this->user_info = $result->fetch_assoc();
     }
     return ($result && $result->num_rows)?$result->num_rows:false;
   }

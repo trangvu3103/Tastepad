@@ -1,5 +1,6 @@
 <?php 
 include_once 'config.php';
+
 ?>
  <!DOCTYPE html>
 <html>
@@ -31,7 +32,18 @@ include_once 'config.php';
             </form>
           </div>
         </div>
-        <div class="login">
-          <button type="button" name="button" class="login-btn button" id="form-btn">Login</button>
-        </div>
+        <?php if (isset($_SESSION['isLoggin']) && $_SESSION['isLoggin']): ?>
+          <div class="">
+            <?php if (isset($_SESSION['avartar']) && $_SESSION['avartar']): ?>
+              <img src="<?= $_SERVER['avartar'] ?>" alt="">
+            <?php else: ?>
+              <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+            <?php endif ?>
+          </div>
+        <?php else: ?>
+          <div class="login">
+            <button type="button" name="button" class="login-btn button" id="form-btn">Login</button>
+          </div>
+          
+        <?php endif ?>
       </header>
