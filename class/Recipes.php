@@ -6,6 +6,7 @@
  
 require_once 'RecipeSteps.php';
 require_once 'Ingredients.php';
+require_once 'Comments.php';
 
 class Recipe
 {
@@ -13,6 +14,13 @@ class Recipe
   protected $conn; 
 
   //Recipe's Variable:
+  protected $RID; 
+  protected $RName; 
+  protected $RAuthorID; 
+  protected $RSteps; 
+  protected $RIngredients; 
+  protected $Rcmts; 
+  protected $Rinfo; 
   
   // an array use for collect database
   public $err; //check for error before run the improtant code
@@ -22,19 +30,33 @@ class Recipe
   {
     $this->conn = new DB;
     $this->err=[];
+    $this->RSteps = new Step;
+    $this->RIngredients = new Ingredient;
+    $this->Rcmts = new Comment;
   }
 
   public function getAllRecipes()
   {
-    $sql = "SELECT * FROM users u, recipes r, recipeimages ri WHERE 'u.userID' = 'r.userID' and 'r.recipeID' = 'ri.recipeID'";
+    $sql = "SELECT * FROM recipes JOIN users ON recipes.userID = users.userID";
     $result = $this->conn->query($sql);
-
+    if ($result) {
+      $this->Rinfo = $result->fetch_all(MYSQLI_ASSOC);
+    }
+    return ($result && $result->num_rows)?$this->Rinfo:false;
   }
 
   public function getRecipeByID($RID)
   {
-    $sql = "SELECT * FROM users u, recipes r, recipeimages ri WHERE 'u.userID' = 'r.userID' and 'r.recipeID' = 'ri.recipeID' and 'r.recipeID' = '$RID'";
+    $sql = "SELECT users.userAvatar, users.userName, recipes.*  FROM recipes, users WHERE recipes.recipeID = '$RID' and recipes.userID = users.userID ";
     $result = $this->conn->query($sql);
+    if ($result) {
+      $this->Rinfo = $result->fetch_assoc();
+      $this->Rinfo += ["steps" => $this->RSteps->getStepsOfRecipeID($RID)];
+      $this->Rinfo += ["ingredients" => $this->RIngredients->getIngredientsByRID($RID)];
+      $this->Rinfo += ["comments" => $this->Rcmts->getCommentsByRID($RID)];
+      //return $result->fetch_assoc();
+    }
+    return ($result && $result->num_rows)?$this->Rinfo:false;
   }
 
   public function addRecipe($RName,$RBio,$RImgs,$RIngredients,$RSteps)
@@ -93,8 +115,11 @@ class Recipe
     }
     $sql = "SELECT * FROM recipes WHERE recipeName = '$RName'";
     $result = $this->conn->query($sql);
-    $this->user_info = $result->fetch_assoc();
-    return $result->num_rows;
+    if ($result) {
+      $this->Rinfo = $result->fetch_assoc();
+      //return $result->fetch_assoc();
+    }
+    return ($result->num_rows)?$result->num_rows:false;
   }
 
   public function findRecipeByID($RID)
@@ -104,8 +129,11 @@ class Recipe
     }
     $sql = "SELECT * FROM recipes WHERE recipeID = '$RID'";
     $result = $this->conn->query($sql);
-    $this->user_info = $result->fetch_assoc();
-    return $result->num_rows;
+    if ($result) {
+      $this->Rinfo = $result->fetch_assoc();
+      //return $result->fetch_assoc();
+    }
+    return ($result->num_rows)?$result->num_rows:false;
   }
 
   public function likeRecipe($RID)
@@ -127,5 +155,18 @@ class Recipe
   {
     
   }
+
+  public function getRinfo()
+  {
+    return $this->Rinfo;
+  }
+
+  public function getRDetails($RID)
+  {
+    $this->getRecipeByID($RID);
+    return ["Name" => $this->Rinfo["recipeName"], "Des" => $this->Rinfo["recipeDes"], "author" => $this->Rinfo["userName"], "AID" => $this->Rinfo["userID"], "avatar" => $this->Rinfo["userAvatar"], "liked" => $this->Rinfo["recipeLiked"], "steps" => $this->Rinfo["steps"], "ingredients" => $this->Rinfo["ingredients"], "comments" => $this->Rinfo["comments"]];
+  }
+
+
 }
  ?>

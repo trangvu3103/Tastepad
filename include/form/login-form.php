@@ -35,6 +35,7 @@ if(file_exists($_SERVER['DOCUMENT_ROOT']."/login.php")){
               <label for="Password">Password</label>
               <input name="password" type="text" class="form-control" id="pass" placeholder="Password is...">
             </div>
+            <div class="err"></div>
             <button type="button" name="login" id="log-in-btn">Login</button>
           </form>
           <!-- Do not remove form id -->
@@ -55,6 +56,7 @@ if(file_exists($_SERVER['DOCUMENT_ROOT']."/login.php")){
               <label for="re=pass">Re-enter password</label>
               <input name="re-pass" type="text" class="form-control" placeholder="Re-enter password...">
             </div>
+            <div class="err"></div>
             <button type="button" name="signup" id="sign-up-btn">Sign up</button>
           </form>
         </div>

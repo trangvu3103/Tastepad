@@ -1,16 +1,18 @@
 <?php
 /**
- * Class: Recipe
- * This is for all Recipe functions
+ * Class: RecipeStep
+ * This is for all RecipeStep functions
  */
- 
+
 class Step
 {
-  //connection for Recipe
+  //connection for RecipeStep
   protected $conn; 
 
-  //Recipe's Variable:
-  
+  //RecipeStep's Variable:
+  protected $SID;
+  protected $SRecipeID;
+  protected $Sinfo;
   // an array use for collect database
   public $err; //check for error before run the improtant code
 
@@ -23,9 +25,12 @@ class Step
 
   public function getStepsOfRecipeID($RID)
   {
-    $sql = "SELECT * FROM steps WHERE recipeID = '$RID' ORDER BY stepNumber";
+    $sql = "SELECT stepID, stepDes FROM steps WHERE steps.recipeID = '$RID' ORDER BY stepID";
     $result = $this->conn->query($sql);
-
+    if ($result) {
+      $this->Sinfo = $result->fetch_all(MYSQLI_ASSOC);
+    }
+    return ($result && $result->num_rows)?$this->Sinfo:false;
   }
 
   public function addStep($RID, $RStep)

@@ -1,0 +1,8 @@
+RewriteEngine on
+# RewriteBase /
+
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^user/([0-9]+) user.php?uid=$1
+RewriteRule ^recipe/([0-9]+) recipe-details-page.php?rid=$1
+# RewriteRule ^contest/([0-9]+) recipe-details-page.php?cid=$1

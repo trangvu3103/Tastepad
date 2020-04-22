@@ -1,23 +1,33 @@
 <?php include 'include/header.php'; ?>
+<?php 
+if (isset($_GET['rid'])):
+  $rid = $_GET['rid'];
+  $recipe = new Recipe;
 
+  //GET RECIPE BY RECIPE ID
+  $recipes = $recipe->findRecipeByID($rid);
+  //CHEFCK FOR AVAIlABLE RECIPE DETAILS
+  if($recipes):
+    $Rinfo = $recipe->getRDetails($rid);
+ ?>
 <section id="detail-sec">
   <div class="row">
     <div class="col-lg-5">
-      <h1>Magical Green Falafels</h1>
+      <h1><?php echo $Rinfo["Name"]; ?></h1>
       <div class="author">
-        <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-        <div>Emmily</div>
+        <?php if (isset($Rinfo["avatar"]) && $Rinfo["avatar"]):?>
+          <img src="<?php echo $Rinfo["avatar"]; ?>" alt="">
+        <?php else:?>
+          <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+        <?php endif; ?>
+        <div><a href="./user/<?php echo $Rinfo['AID']; ?>"> <?= $Rinfo["author"] ?></a></div>
       </div>
       <div class="short-des">
-        Why magical? Because that’s how they taste, seriously.  Very fluffy, soft on the inside and crunchy on the outside. Why Green? Because they are just super green on the inside thanks to the mint, dill and parsley.
-
-    This is not your traditional falafel recipe, this one contains three different types of aromatic herbs as well as over seven spices. Mint and dill are not classic ingredients in traditional falafels but they really take the flavor to another level.
-
-    The secret ingredient to make the inside extra soft and fluffy is baking soda. It helps create a more airy texture inside, the only downside is that the exterior of your falafels will be a bit darker but it doesn’t impact the taste at all!
+        <?php echo $Rinfo['Des']; ?>
       </div>
       <div class="like">
-        <div>2.4k</div>
-        <img src="img\icon\icons8-heart-96.png" alt="">
+        <div><?php echo restyle_text($Rinfo['liked']); ?></div>
+          <img src="<?php echo root; ?>img\icon\icons8-heart-96.png" alt="">
       </div>
     </div>
     <div class="col-lg-7 recipe-img">
@@ -52,16 +62,33 @@
   <div class="row">
     <div class="col-lg-3 ingre">
       <div>Ingredients</div>
-      <ul>
-        <li>1 cup dry garbanzo beans</li>
-        <li>1 cup dry garbanzo beans</li>
-        <li>1 cup dry garbanzo beans</li>
-        <li>1 cup dry garbanzo beans</li>
-      </ul>
+      <?php if(isset($Rinfo["ingredients"]) && $Rinfo["ingredients"]): ?>
+        <ul>
+          <?php foreach ($Rinfo["ingredients"] as $ingredients): ?>
+            <li><?php echo $ingredients; ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php else: ?>
+        <p>404 No Ingredient found!</p>
+      <?php endif; ?>
     </div>
     <div class="col-lg-9 cook ls">
       <div>Cooking</div>
-      <div class="step">
+      <?php if(isset($Rinfo["steps"]) && $Rinfo["steps"]): ?>
+          <?php foreach ($Rinfo["steps"] as $steps): ?>
+            <div class="step">
+              <div>Step <?php echo $steps['stepID']; ?></div>
+              <div><?php echo $steps['stepDes']; ?></div>
+              <div class="step-img">
+                <img src="img\food\magical-green-falafels-7.jpg" alt="">
+                <img src="img\food\magical-green-falafels-7.jpg" alt="">
+              </div>
+            </div>
+          <?php endforeach; ?>
+      <?php else: ?>
+        <p>404 No Steps-by-steps found!</p>
+      <?php endif; ?>
+      <!-- <div class="step">
         <div>Step 1</div>
         <div>Place the chickpeas and broad beans in a large bowl with the baking soda. Cover with water and let soak overnight.</div>
         <div class="step-img">
@@ -84,7 +111,7 @@
           <img src="img\food\magical-green-falafels-7.jpg" alt="">
           <img src="img\food\magical-green-falafels-7.jpg" alt="">
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </section>
@@ -96,8 +123,12 @@
   <!-- comment form -->
   <div class="comment-form">
     <div class="author">
-      <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-      <div>Emmily</div>
+      <?php if (isset($Rinfo["avatar"]) && $Rinfo["avatar"]):?>
+          <img src="<?php echo $Rinfo["avatar"]; ?>" alt="">
+        <?php else:?>
+          <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+        <?php endif; ?>
+      <div><?= $Rinfo["author"]; ?></div>
     </div>
     <form>
       <div class="form-group">
@@ -106,33 +137,28 @@
       <button type="button" name="button">Comment now</button>
     </form>
   </div>
+  <!-- /comment form -->
+  
   <div class="comments">
-    <div class="cmt">
-      <div class="author">
-        <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-        <div>Emmily</div>
-      </div>
-      <div class="comment-txt">
-        Well done! Very nice recipe, very easy to make!
-      </div>
-    </div>
-    <div class="cmt">
-      <div class="author">
-        <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-        <div>Emmily</div>
-      </div>
-      <div class="comment-txt">
-        Well done! Very nice recipe, very easy to make!
-      </div>
-    </div>
-    <div class="cmt">
-      <div class="author">
-        <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-        <div>Emmily</div>
-      </div>
-      <div class="comment-txt">
-        Well done! Very nice recipe, very easy to make!
-      </div>
+    <?php if(isset($Rinfo["comments"]) && $Rinfo["comments"]): ?>
+        <?php foreach ($Rinfo["comments"] as $comment): ?>
+          <div class="cmt">
+            <div class="author">
+              <?php if ($comment["userAvatar"]):?>
+                <img src="<?= $comment["userAvatar"]; ?>" alt="">
+              <?php else: ?>
+                <img src="<?= root ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+              <?php endif; ?>
+              <div><a href="./user/<?= $comment['userID']; ?>"><?= $comment['name'] ?></a></div>
+            </div>
+            <div class="comment-txt">
+              <?= $comment['userComment'] ?>
+            </div>
+          </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+      <p>404 No Steps-by-steps found!</p>
+    <?php endif; ?>
     </div>
     <div class="btn-show-more">
       <button type="button" name="button" id="show-more">Show more</button>
@@ -140,5 +166,12 @@
   </div>
 
 </section>
-
+<?php 
+  else:
+    echo '404 not found';
+  endif;
+else:
+  echo '404 not found';
+endif;
+ ?>
 <?php include 'include/footer.php'; ?>

@@ -1,14 +1,6 @@
-<?php
-foreach (glob(dirname(dirname(__FILE__))."/class/*.php") as $filename)
-{
-    include_once $filename;
-}
-define('root', $_SERVER['DOCUMENT_ROOT']."/Tastepad/");
-
-$currentPage = basename($_SERVER['SCRIPT_FILENAME'], ".php");
-
-
- ?>
+<?php 
+include_once 'config.php';
+?>
  <!DOCTYPE html>
 <html>
   <head>
@@ -21,7 +13,7 @@ $currentPage = basename($_SERVER['SCRIPT_FILENAME'], ".php");
     <script src="js/jquery.js">
     </script> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="<?php echo root; ?>style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo&family=Manrope&display=swap" rel="stylesheet">
   </head>
   <body>

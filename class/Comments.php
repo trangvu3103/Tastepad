@@ -1,17 +1,17 @@
 <?php
 /**
- * Class: Ingredients
- * This is for all Ingredients functions
+ * Class: Comment
+ * This is for all Comment functions
  */
  
-class Ingredient
+class Comment
 {
-  //connection for Ingredients
+  //connection for Comment
   protected $conn; 
 
-  //Ingredients's Variable:
-  protected $IID;
-  protected $IRID;
+  //Comment's Variable:
+  protected $CUID;
+  protected $CRID;
   protected $Iinfo;
   // an array use for collect database
   public $err; //check for error before run the improtant code
@@ -23,14 +23,14 @@ class Ingredient
     $this->err=[];
   }
 
-  public function getIngredientsByRID($RID)
+  public function getCommentsByRID($RID)
   {
-    $sql = "SELECT ingredientNameAndAmoount FROM ingredients WHERE recipeID = '$RID'";
+    $sql = "SELECT users.userID, users.userName AS `name`, users.userAvatar,comments.userComment FROM comments, users WHERE comments.recipeID = '$RID' and comments.userID = users.userID ORDER BY comments.dateModified DESC ";
     $result = $this->conn->query($sql);
     if ($result) {
-      $fetch = $result->fetch_all();
+      $fetch = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($fetch as $info) {
-        $this->Iinfo[] = $info[0];
+        $this->Iinfo[] = $info;
       }
 
     }

@@ -10,8 +10,8 @@ class user
   protected $conn; 
 
   //User's Variable:
-
-  public $user_info; // an array use for collect database
+  
+  protected $user_info; // an array use for collect database
   public $err; //check for error before run the improtant code
 
   //Function
@@ -30,7 +30,7 @@ class user
       $_SESSION['isLoggin'] = true;
       $_SESSION['role'] = $this->user_info['userRole'];
 
-      header('Location: home-page.php');
+      // header('Location: home-page.php');
       return 0;
     }
     //when error occur delete connection?
@@ -44,6 +44,7 @@ class user
   public function login($email = null, $password = null){
     $verifyLogin = $this->verifyLogin($email, $password);
     if($verifyLogin==0){
+
       $_SESSION['user_ID'] = $this->user_info['userID'];
       $_SESSION['user_name'] = $this->user_info['userName'];
       $_SESSION['isLoggin'] = true;
@@ -61,28 +62,33 @@ class user
   }
 
   public function verifyLogin($email = null, $password = null){
+    if (!$email) {
+      $this->err[] = "Please enter your email";
+      return 1;
+    }
+    
     if (!$email || !filter_var($email,FILTER_VALIDATE_EMAIL)) {
-      $this->err[] = "Xin vui lòng nhập email";
+      $this->err[] = "Invalid email. Please re-enter Email";
       return 1;
     }
     
     if(!$this->findEmail($email)){
-      $this->err[] = "Không tìm thấy Email. Xin nhập lại Email";
+      $this->err[] = "Email not found. Please re-enter Email";
       return 1;
     }
     
     if (!$password) {
-      $this->err[] = "Xin vui lòng nhập password";
+      $this->err[] = "Please enter your password";
       return 1;
     }
 
     if(!password_verify($password, $this->user_info['userPassword'])){
-      $this->err[] = "Sai mật khẩu. Xin nhập lại mật khẩu";
+      $this->err[] = "Wrong password. Please enter your password again";
       return 1;
     }
 
     if($this->user_info['lockStatus']){
-      $this->err[] = "Đăng nhập không thành công, tài khoản đã bị khóa";
+      $this->err[] = "Failed to login, the account has been locked";
       return 1;
     }
 
@@ -91,37 +97,37 @@ class user
 
   public function verifyCreateAccount($email = null, $fullName = null, $pw = null, $pw1 = null){
     if (!$email) {
-      $this->err[] = "Xin vui lòng nhập email";
+      $this->err[] = "Please enter your email";
       return 1;
     }
     
-    if (!$fullName || strlen($fullName)<1) {
-      $this->err[] = "Xin vui lòng nhập Full name";
-      return 1;
-    }
-    
-    if (!$pw) {
-      $this->err[] = "Xin vui lòng nhập Password";
-      return 1;
-    }
-    
-    if (!$pw1) {
-      $this->err[] = "Xin vui lòng nhập Re-enter password";
-      return 1;
-    }
-
     if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
-      $this->err[]="Email không hợp lệ. Xin nhập lại Email";
+      $this->err[]="Invalid email. Please re-enter Email";
       return 1;
     }
 
     if($this->findEmail($email)){
-      $this->err[] = "Email bị trùng khớp. Xin nhập lại Email";
+      $this->err[] = "This email has been registered. Please re-enter Email";
+      return 1;
+    }
+
+    if (!$fullName || strlen($fullName)<1) {
+      $this->err[] = "Please enter your full name";
+      return 1;
+    }
+    
+    if (!$pw) {
+      $this->err[] = "Please enter your password";
+      return 1;
+    }
+    
+    if (!$pw1) {
+      $this->err[] = "Please enter the password again";
       return 1;
     }
 
     if($pw != $pw1){
-      $this->err[] = "Password và re-enter password ko trùng khớp. Xin nhập lại Re-enter password";
+      $this->err[] = "The password and re-enter password do not match. Please enter the Re-enter password again";
       return 1;
     }
 
@@ -143,8 +149,23 @@ class user
     }
     $sql = "SELECT * FROM users WHERE userEmail = '$email'";
     $result = $this->conn->query($sql);
-    $this->user_info = $result->fetch_assoc();
-    return $result->num_rows?$result->num_rows:false;
+    if ($result) {
+      $this->Rinfo = $result->fetch_assoc();
+    }
+    return ($result && $result->num_rows)?$result->num_rows:false;
+  }
+
+  public function findUserName($name=null)
+  {
+    if ($email==null) {
+      return null;
+    }
+    $sql = "SELECT * FROM users WHERE userName = '$name'";
+    $result = $this->conn->query($sql);
+    if ($result) {
+      $this->Rinfo = $result->fetch_assoc();
+    }
+    return ($result && $result->num_rows)?$result->num_rows:false;
   }
 
   // get user info for user class

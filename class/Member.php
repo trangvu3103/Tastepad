@@ -14,9 +14,9 @@ class Member extends User
   //Member's Variable:
   public $userID;
   public $userName;
+  public $userRole;
   // public $userEmail;
   // public $userAvatar;
-  public $userRole;
   // public $user_info; // an array use for collect database
   // public $err; //check for error before run the improtant code
 
