@@ -61,3 +61,20 @@
     margin-top: 50px;
   }
 }
+
+#new-contest-form {
+  margin-top: 50px;
+  label {
+    font-family: $sub-font;
+    color: $text-color-2;
+  }
+  .open-btn {
+    display: flex;
+    margin-top: 40px;
+    button {
+      color: $text-color-1;
+      background-color: $btn-color-3;
+      margin: auto;
+    }
+  }
+}
