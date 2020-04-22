@@ -29,6 +29,65 @@
   </div>
 </section>
 
-
+<section id="ls-sec">
+  <div class="header-ls">
+    <div class="cate-tag">
+      Categories
+    </div>
+    <div class="sort">
+      <div class="">
+        Sort by:
+      </div>
+      <div class="dropdown">
+        <button class="btn-secondary dropdown-toggle" type="button" id="sort-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Most popular
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item sort-option" href="#">Newest</a>
+          <a class="dropdown-item sort-option" href="#">Oldest</a>
+          <a class="dropdown-item sort-option" href="#">Most popular</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="categories">
+          <div class="head-cate">
+            <a href="#">Recipe</a>
+            <ul>
+              <li><a href="#">Breakfast</a></li>
+              <li><a href="#">Brunch</a></li>
+              <li><a href="#">Lunch</a></li>
+              <li><a href="#">Dinner</a></li>
+            </ul>
+          </div>
+          <div class="head-cate">
+            <a href="#">Contest</a>
+          </div>
+          <div class="head-cate">
+            <a href="#">News</a>
+          </div>
+        </div>
+      </div>
+      <!-- recipe list, contest list -->
+      <?php //include 'include\contests.php';
+        include 'include\recipes.php';
+      ?>
+    </div>
+    <div class="page">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
 
 <?php include 'include/footer.php'; ?>

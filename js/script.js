@@ -1,3 +1,4 @@
+//form animation 
 document.getElementById('form-btn').onclick = function () {
   var form = document.getElementById('login-sec');
   form.classList.remove("form-deactive");
@@ -39,3 +40,15 @@ document.getElementById('form-btn').onclick = function () {
     setTimeout (function () { logTxt.classList.remove("form-active"); },500);
   }
 };
+
+//sort option
+var sortOption = document.getElementsByClassName('sort-option');
+
+Array.prototype.forEach.call(sortOption, function(element) {
+  element.addEventListener('click', function() {
+    var data = element.innerHTML;
+    var sortBtn = document.getElementById('sort-btn');
+
+    sortBtn.innerHTML = data;
+  });
+});
