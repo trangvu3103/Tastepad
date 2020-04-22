@@ -32,8 +32,10 @@ include_once 'config.php';
             </form>
           </div>
         </div>
+        <!-- THIS IS FOR CHECKING LOGIN SESSION -->
         <?php if (isset($_SESSION['isLoggin']) && $_SESSION['isLoggin']): ?>
           <div class="">
+            <!-- THIS IS FOR CHECKING AVATAR -->
             <?php if (isset($_SESSION['avartar']) && $_SESSION['avartar']): ?>
               <img src="<?= $_SERVER['avartar'] ?>" alt="">
             <?php else: ?>
@@ -41,6 +43,7 @@ include_once 'config.php';
             <?php endif ?>
           </div>
         <?php else: ?>
+          <!-- THIS IS FOR NOT LOGIN -->
           <div class="login">
             <button type="button" name="button" class="login-btn button" id="form-btn">Login</button>
           </div>
