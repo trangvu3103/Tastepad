@@ -1,4 +1,5 @@
 $(document).ready(function() {
+//add more ingredients to recipe
   $(".btn-add-ingre").click(function () {
     let ingre = '<div class="form-group add-ingre">';
     ingre += '<input name="ingre" type="text" class="form-control" id="" placeholder="What are the ingredients?">';
@@ -10,6 +11,7 @@ $(document).ready(function() {
       $(this).closest('.add-ingre').remove();
   });
 
+//add more step to recipe
   $(".btn-more-step").click(function () {
     var stepNo = $('.step').length;
     console.log(stepNo);
@@ -32,6 +34,7 @@ $(document).ready(function() {
       $(this).closest('.step').remove();
   });
 
+//toggle choose recipe form
   $('#choose-recipe-form').hide();
   $('#choose-recipe-closer').click(function () {
     $("#choose-recipe-form").fadeOut();
@@ -43,6 +46,7 @@ $(document).ready(function() {
     $("#choose-recipe-form").fadeOut();
   });
 
+//like and unlike
   $('.like').find('img').click(function () {
     var src = $(this).attr("src");
     if (src == "img\\icon\\closer.png") {
