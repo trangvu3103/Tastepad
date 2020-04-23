@@ -1,238 +1,49 @@
+<?php
+$recipe = new Recipe;
+$recipes = $recipe->getAllRecipes();
+if ($recipes):
+ $Rs_length = count($recipes);
+  ?>
 <div class="col-lg-9 recipe-ls ls">
-  <div class="row">
-    <div class="col-md-4 recipe-card">
+  <?php foreach ($recipes as $key =>$recipe): ?>
+    <?php if ($key%3 == 0): ?>
+      <div class="row">
+    <?php endif ?>
+    <div class="col-md-4 recipe-card" data-href="<?= $recipe['recipeID'] ?>">
       <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
+        <?php if ($recipe['userAvatar']): ?>
+          <img src="#" alt="recipe-thumbnail">
+        <?php else: ?>
+          <img src="<?= root ?>img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
+        <?php endif ?>
         <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
+          <div><?= readmore($recipe['recipeDes']) ?></div>
         </div>
       </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
+      <h2><?= readmore($recipe['recipeName'],50) ?></h2>
       <div class="info">
         <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
+          <?php if ($recipe['userAvatar']): ?>
+            <img src="#" alt="recipe-thumbnail">
+          <?php else: ?>
+            <img src="<?= root ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+          <?php endif ?>
+          <div><?= $recipe['userName'] ?></div>
         </div>
         <div class="like">
-          <div>2.4k</div>
+          <div><?php echo restyle_text($recipe['recipeLiked']); ?></div>
           <img src="img\icon\icons8-heart-96.png" alt="">
         </div>
       </div>
     </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
+  <?php if ($key%3 == 2 || $key == $Rs_length - 1): ?>
     </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 recipe-card">
-      <div class="descrip">
-        <img src="img\food\f7a6771a03e0dfff2fa2c82c95dd9baf.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Impress your guesses with the grilled ducl breast along with potato. This recipe flavored with passion souce to provide more seasionning taste.</div>
-        </div>
-      </div>
-      <h2>Walnut panna cotta Walnut panna cotta</h2>
-      <div class="info">
-        <div class="author">
-          <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
-        </div>
-        <div class="like">
-          <div>2.4k</div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
-        </div>
-      </div>
-    </div>
-  </div>
+  <?php endif ?>
+    <?php endforeach ?>
 </div>
+<?php endif ?>
+
+<script>
+  
+  
+</script>

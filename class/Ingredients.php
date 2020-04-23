@@ -28,7 +28,7 @@ class Ingredient
     $sql = "SELECT ingredientNameAndAmoount FROM ingredients WHERE recipeID = '$RID'";
     $result = $this->conn->query($sql);
     if ($result) {
-      $fetch = $result->fetch_all();
+      $fetch = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($fetch as $info) {
         $this->Iinfo[] = $info[0];
       }
@@ -37,17 +37,31 @@ class Ingredient
     return ($result && $result->num_rows)?$this->Iinfo:false;
   }
 
-  public function addIngredients($IName,$RID)
+  public function addIngredients($RID, $INameNAmount)
   {
-
+    $IID = $this->getLastIIDByRID($RID)?intval($this->Iinfo['ingredientID']):1;
+    $sql="INSERT INTO ingredients VALUES ('$IID','$RID','$INameNAmount',DEFAULT,DEFAULT)";
+    $result = $this->conn->query($sql);
+    return ($result && $result->num_rows)?$result:false;
   }
 
-  public function deleteIngredients($RID)
+  public function deleteIngredient($RID,$IID)
   {
     
   }
-  public function updateSteps($RID,$IID)
+  public function updateIngredient($RID,$IID)
   {
+    
+  }
+  public function getLastIIDByRID($RID)
+  {
+    $sql = "SELECT ingredientID FROM ingredients WHERE recipeID = '$RID' ORDER BY ingredientID DESC";
+    $result = $this->conn->query($sql);
+    if ($result) {
+      $this->Iinfo = $result->fetch_assoc();
+
+    }
+    return ($result && $result->num_rows)?$result:false;
     
   }
 

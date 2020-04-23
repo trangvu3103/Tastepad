@@ -8,7 +8,7 @@ if (isset($_GET['rid'])):
   $recipes = $recipe->findRecipeByID($rid);
   //CHEFCK FOR AVAIlABLE RECIPE DETAILS
   if($recipes):
-    $Rinfo = $recipe->getRDetails($rid);
+    $Rinfo = $recipe->getRecipeByID($rid);
  ?>
 <section id="detail-sec">
   <div class="row">
