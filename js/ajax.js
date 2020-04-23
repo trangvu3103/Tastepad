@@ -1,6 +1,23 @@
 $(document).ready(function($) {
 	console.log("ajax file");
 
+	$(".like").click(function(event) {
+		/* Act on the event */
+		console.log('like');
+		$.ajax({
+		    url: 'ajax.php',
+		    type: 'POST',
+		    dataType:"json",
+		    data: {
+		    	rid: $(this).data('rid'),
+		    },
+			async: false,
+			success: function(result){
+			      console.log(result);
+			    }
+		});
+		
+	});
 /*	//Login BTN
 	$("#log-in-btn").click(function(event) {
 		 // Act on the event 

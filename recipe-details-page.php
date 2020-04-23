@@ -24,7 +24,7 @@ if (isset($_GET['rid'])):
       <h1><?php echo $Rinfo["Name"]; ?></h1>
       <div class="author">
         <?php if (isset($Rinfo["avatar"]) && $Rinfo["avatar"]):?>
-          <img src="<?php echo getImgHP($Rinfo["avatar"]); ?>" alt="">
+          <img src="<?php echo '../'.getImgHP($Rinfo["avatar"]); ?>" alt="">
         <?php else:?>
           <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
         <?php endif; ?>
@@ -49,7 +49,7 @@ if (isset($_GET['rid'])):
           <?php if ($Rinfo['imgs']): ?>
             <?php foreach ($Rinfo['imgs'] as $k => $v):?>
               <div class="carousel-item <?php echo ($k==0)?'active':'' ?>">
-                <img src="<?= getImgHP($v['recipeImageDestination']) ?>" alt="First slide">
+                <img src="<?= '../'.getImgHP($v['recipeImageDestination']) ?>" alt="First slide">
               </div>
             <?php endforeach ?>
           <?php else: ?>
@@ -101,7 +101,7 @@ if (isset($_GET['rid'])):
                 <div><?php echo $steps['stepDes']; ?></div>
                 <?php if ($steps['stepImageDestination']): ?>
                   <?php foreach ($steps['stepImageDestination'] as $v): ?>
-                    <img src="<?= getImgHP($v) ?>" alt="">
+                    <img src="<?= '../'.getImgHP($v) ?>" alt="">
                     
                   <?php endforeach ?>
                 <?php endif ?>

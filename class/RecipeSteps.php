@@ -31,6 +31,7 @@ class Step
     $sql = "SELECT steps.stepID, steps.stepDes, stepimages.stepImageDestination FROM steps, stepimages WHERE steps.recipeID = '$RID' and steps.stepID = stepimages.stepID ORDER BY stepID ASC";
     $result = $this->conn->query($sql);
     if ($result) {
+    $result1=[];
       $this->Sinfo = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($this->Sinfo as $k => $v) {
         if (!$k) {
@@ -43,6 +44,7 @@ class Step
           $result1[$stepID] = ['stepID' => $v['stepID'], 'stepDes' => $v['stepDes']];
           $result1[$stepID]['stepImageDestination'][] = $v['stepImageDestination'];        
         }
+
       }
       $this->Sinfo = $result1;
 
@@ -54,9 +56,8 @@ class Step
   {
     //ADD STEP
     $des = $RStep['step'];
-    $sql="INSERT INTO steps VALUES ('$SID','$RID','$des',DEFAULT,DEFAULT)";
+    $sql="INSERT INTO steps VALUES ('$SID','$des','$RID',DEFAULT,DEFAULT)";
     $result = $this->conn->query($sql);
-
 
     //ADD STEP IMG
     $SIID = $this->getLastSIIDByRID($SID)?intval($this->Sinfo['stepImageID']):1;

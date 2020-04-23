@@ -65,7 +65,7 @@ function readmore($string, $num = 200)
 function getImgHP($dest)
 {
 	$rm = [0=>'',1=>'wamp64',2=>'www',3=>'Tastepad'];
-	return "../" . implode("/",array_diff(explode("/",parse_url($dest)['path']),$rm));
+	return implode("/",array_diff(explode("/",parse_url($dest)['path']),$rm));
 }
 
  ?>
