@@ -1,4 +1,5 @@
 $(document).ready(function() {
+//add more ingredients to recipe
   $(".btn-add-ingre").click(function () {
     let ingre = '<div class="form-group add-ingre">';
     ingre += '<input name="ingre[]" type="text" class="form-control" id="" placeholder="What are the ingredients?">';
@@ -10,6 +11,7 @@ $(document).ready(function() {
       $(this).closest('.add-ingre').remove();
   });
 
+//add more step to recipe
   $(".btn-more-step").click(function () {
     var stepNo = $('.step').length;
     console.log(stepNo);
@@ -27,6 +29,7 @@ $(document).ready(function() {
     step += '</div>';
     $(this).before(step);
   });
+
   $(document).on('click', '.btn-remove-step', function () {
       $(this).closest('.step').remove();
       var stepNo = $('.step').length;
@@ -34,4 +37,27 @@ $(document).ready(function() {
         $('.step [name^=recipestepimg').attr('name','recipestepimg'+(index+1)+'[]');
       });
   });
+
+//toggle choose recipe form
+  $('#choose-recipe-form').hide();
+  $('#choose-recipe-closer').click(function () {
+    $("#choose-recipe-form").fadeOut();
+  });
+  $('#sent-recipe').click(function () {
+    $("#choose-recipe-form").fadeIn();
+  });
+  $('.choose-recipe-wrapper').find('.recipe-card').click(function () {
+    $("#choose-recipe-form").fadeOut();
+  });
+
+//like and unlike
+  $('.like').find('img').click(function () {
+    var src = $(this).attr("src");
+    if (src == "img\\icon\\closer.png") {
+      $(this).attr('src', "img\\icon\\icons8-heart-96.png");
+    } else {
+      $(this).attr('src', "img\\icon\\closer.png");
+    }
+  });
+
 })
