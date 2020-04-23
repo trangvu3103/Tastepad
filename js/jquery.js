@@ -33,13 +33,23 @@ $(document).ready(function() {
   });
 
   $('#choose-recipe-form').hide();
-  $('#choose-recipe-closer').click(function() {
+  $('#choose-recipe-closer').click(function () {
     $("#choose-recipe-form").fadeOut();
   });
-  $('#sent-recipe').click(function() {
+  $('#sent-recipe').click(function () {
     $("#choose-recipe-form").fadeIn();
   });
   $('.choose-recipe-wrapper').find('.recipe-card').click(function () {
     $("#choose-recipe-form").fadeOut();
   });
+
+  $('.like').find('img').click(function () {
+    var src = $(this).attr("src");
+    if (src == "img\\icon\\closer.png") {
+      $(this).attr('src', "img\\icon\\icons8-heart-96.png");
+    } else {
+      $(this).attr('src', "img\\icon\\closer.png");
+    }
+  });
+
 })
