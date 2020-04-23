@@ -21,6 +21,7 @@ if(isset($_GET['isLoggin'])&&!empty($_GET['isLoggin'])){
   $_SESSION['avartar'] = $_GET['avartar'];
   $_SESSION['isLoggin'] = $_GET['isLoggin'];
   $_SESSION['role'] = $_GET['role'];
+  $member = new Member;
   header('Location: home-page');
 }
 

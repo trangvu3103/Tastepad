@@ -1,5 +1,5 @@
 <section id="recipe-form-sec">
-  <form class="" action="include/addRecipe.php" method="post" enctype="multipart/form-data" id="addRecipe">
+  <form class="" action="" method="post" enctype="multipart/form-data" id="addRecipe">
     <div class="row">
       <div class="col-lg-5">
         <div class="form-group">
@@ -11,9 +11,11 @@
           <!-- <input type="text" name="uid" value="2" disabled class="d-none"> -->
         </div>
         <!-- HIDE GIÙM -->
-        <div class="form-group" class="d-none">
-          <input name="uid" type="text" class="form-control" id="uid" class="d-none" value="2">
-        </div>
+        <?php if (isset($_SESSION['isLoggin']) && $_SESSION['isLoggin']): ?>
+          <div class="form-group" class="d-none">
+            <input name="uid" type="text" class="form-control" id="uid" class="d-none" value="<?= $_SESSION['uid'] ?>">
+          </div>
+        <?php endif ?>
         <div class="form-group">
           <textarea class="form-control" id="short-description" rows="4" placeholder="Your short description" name="short-description"></textarea>
         </div>

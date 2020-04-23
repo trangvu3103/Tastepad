@@ -41,7 +41,7 @@ class Step
     //ADD STEP
     $des = $RStep['step'];
     $sql="INSERT INTO steps VALUES ('$SID','$RID','$des',DEFAULT,DEFAULT)";
-    // $result = $this->conn->query($sql);
+    $result = $this->conn->query($sql);
 
 
     //ADD STEP IMG
@@ -68,7 +68,9 @@ class Step
 
   public function deleteStep($RID,$RStep)
   {
-    
+    $sql="DELETE FROM steps, stepimages WHERE recipeImageID IN (SELECT TOP 1 recipeImageID FROM recipeimages ORDER BY id DESC)";
+    $result = $this->conn->query($sql);
+
   }
 
   public function updateStep($RID, $RStep)

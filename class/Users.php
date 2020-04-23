@@ -26,11 +26,11 @@ class user
     $verifyCreateAccount = $this->verifyCreateAccount($email, $fullName, $pw, $pw1);
     if($verifyCreateAccount==0){
       $this->createAccount($email, $fullName, $pw);
-      Session::set('user_ID', $this->user_info['userID']);
-      Session::set('user_name', $this->user_info['userName']);
-      Session::set('avartar', $this->user_info[' userAvatar']);
-      Session::set('isLoggin', true);
-      Session::set('role', $this->user_info['userRole']);
+      // Session::set('user_ID', $this->user_info['userID']);
+      // Session::set('user_name', $this->user_info['userName']);
+      // Session::set('avartar', $this->user_info[' userAvatar']);
+      // Session::set('isLoggin', true);
+      // Session::set('role', $this->user_info['userRole']);
 
       // header('Location: home-page.php');
       return 0;
@@ -46,11 +46,11 @@ class user
   public function login($email = null, $password = null){
     $verifyLogin = $this->verifyLogin($email, $password);
     if($verifyLogin==0){
-      Session::set('user_ID', $this->user_info['userID']);
-      Session::set('user_name', $this->user_info['userName']);
-      Session::set('avartar', $this->user_info['userAvatar']);
-      Session::set('isLoggin', true);
-      Session::set('role', $this->user_info['userRole']);
+      // Session::set('user_ID', $this->user_info['userID']);
+      // Session::set('user_name', $this->user_info['userName']);
+      // Session::set('avartar', $this->user_info['userAvatar']);
+      // Session::set('isLoggin', true);
+      // Session::set('role', $this->user_info['userRole']);
       // header('Location:home-page.php');
       return 0;
     }
@@ -174,6 +174,19 @@ class user
     }
     return ($result && $result->num_rows)?$result->num_rows:false;
   }
+  
+  public function findUserByID($UID=null)
+    {
+      if ($UID==null) {
+        return null;
+      }
+      $sql = "SELECT * FROM users WHERE userID = '$UID'";
+      $result = $this->conn->query($sql);
+      if ($result) {
+        $this->user_info = $result->fetch_assoc();
+      }
+      return ($result && $result->num_rows)?$result->num_rows:false;
+    }
 
   // get user info for user class
   public function getUserInfo (){

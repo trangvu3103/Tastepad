@@ -4,6 +4,7 @@
  * This is for all Recipe functions
  */
  
+// require_once 'Users.php';
 require_once 'RecipeSteps.php';
 require_once 'Ingredients.php';
 require_once 'Comments.php';
@@ -32,6 +33,7 @@ class Recipe
   {
     $this->conn = new DB;
     $this->err=[];
+    $this->RAuthorID = new user;
     $this->RSteps = new Step;
     $this->RIngredients = new Ingredient;
     $this->Rcmts = new Comment;
@@ -85,6 +87,7 @@ class Recipe
 
   public function addRecipe($RName,$RBio,$RImgs,$author,$RIngredients,$RSteps)
   {
+
     if (!$RName) {
       $this->err[] = "Người dùng chưa nhập tên món";
       return 1;
@@ -109,14 +112,15 @@ class Recipe
     //GET ID OF RECIPE
     $sql="SELECT recipeID FROM recipes ORDER BY recipeID DESC";
     $result = $this->conn->query($sql);
-    $RID = intval($result->fetch_assoc()['recipeID']);
+    $RID = intval($result->fetch_assoc()['recipeID'])+1;
+
     
 
     //ADD RECIPE
     $sql="INSERT INTO recipes VALUES('$RID','$RName','$RBio',0,'$author',null, DEFAULT, DEFAULT)";
     $result = $this->conn->query($sql);
 
-    SET FILE IMG AND FILE LOCATION FOR ADDING
+    // SET FILE IMG AND FILE LOCATION FOR ADDING
     $this->RimgFile->setFile($RImgs);
 
     if(empty($this->RimgFile->move(realpath('../img/test/')))){
@@ -126,21 +130,24 @@ class Recipe
       // ADDING IMG
       foreach ($RimgDest as $k => $v) {
         $sql="INSERT INTO recipeimages VALUES ('$ID','$RID','$v',DEFAULT,DEFAULT)";
-        // $result = $this->conn->query($sql);
+        $result = $this->conn->query($sql);
         $ID += 1;
       }
 
     }else{
       $this->err = $this->RimgFile->err;
+        $sql="DELETE FROM recipeimages WHERE recipeImageID IN (SELECT TOP 1 recipeImageID FROM recipeimages ORDER BY id DESC)";
+        $result = $this->conn->query($sql);
       return 1;
     }
 
     $this->addIngredients($RID, $RIngredients);
     if ($this->addSteps($RID, $RSteps)){
+      $result = $this->conn->rollback($sql);
       return 1;
     }
 
-    return 0
+    return 0;
 
   }
 
@@ -159,7 +166,7 @@ class Recipe
     foreach ($RSteps as $k => $v) {
       if($this->RSteps->addStep($RID,$v,$k+1)){
         $this->err = $this->RSteps->err;
-        return 1
+        return 1;
       }
     }
     

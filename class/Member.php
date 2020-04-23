@@ -5,6 +5,7 @@
  */
 
 require_once 'Users.php';
+require_once 'Recipes.php';
 
 class Member extends User
 {
@@ -12,9 +13,11 @@ class Member extends User
   // protected $conn; 
 
   //Member's Variable:
-  public $userID;
-  public $userName;
-  public $userRole;
+  public $UID;
+  public $UName;
+  public $URole;
+  public $UAvatar;
+  public $URecipe;
   // public $userEmail;
   // public $userAvatar;
   // public $user_info; // an array use for collect database
@@ -25,9 +28,14 @@ class Member extends User
   {
     parent::__construct();
     //get USER INFO FROM SESSION
-    $this->userID = $_SESSION['user_ID'];
-    $this->userName = $_SESSION['user_name'];
-    $this->userRole = $_SESSION['role'];
+    if (isset($_SESSION)&&!empty($_SESSION)) {
+      $this->UID = $_SESSION['uid'];
+      $this->UName = $_SESSION['name'];
+      $this->UAvatar = $_SESSION['avartar'];
+      $this->URole = $_SESSION['role'];
+      
+    }
+    $this->URecipe = new Recipe;
   }
 
 
@@ -64,9 +72,13 @@ class Member extends User
 
   //RECIPE FUNCTIONS
   //Adding recipe
-  public function addRecipe($Rname, $RBio, $ingredients, $steps, $imgs)
+  public function addRecipe($RName,$RBio,$RImgs,$author,$RIngredients,$RSteps)
   {
-    
+    if (!$author || !$this->findUserByID($author)) {
+      header("Location:home-page.php");
+      return 1;
+    }
+    $this->URecipe->addRecipe($RName,$RBio,$RImgs,$author,$RIngredients,$RSteps);
   }
 
   //Update Recipe

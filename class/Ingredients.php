@@ -39,10 +39,10 @@ class Ingredient
 
   public function addIngredients($RID, $INameNAmount)
   {
-    $IID = $this->getLastIIDByRID($RID)?intval($this->Iinfo['ingredientID']):1;
+    $IID = $this->getLastIIDByRID($RID)?intval($this->Iinfo['ingredientID'])+1:1;
     $sql="INSERT INTO ingredients VALUES ('$IID','$RID','$INameNAmount',DEFAULT,DEFAULT)";
     $result = $this->conn->query($sql);
-    return ($result && $result->num_rows)?$result:false;
+    return ($result && isset($result->num_rows))?$result:false;
   }
 
   public function deleteIngredient($RID,$IID)
@@ -59,7 +59,6 @@ class Ingredient
     $result = $this->conn->query($sql);
     if ($result) {
       $this->Iinfo = $result->fetch_assoc();
-
     }
     return ($result && $result->num_rows)?$result:false;
     

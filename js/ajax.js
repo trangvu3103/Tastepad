@@ -70,33 +70,33 @@ $(document).ready(function($) {
 	var url = window.location.origin ? window.location.origin + '/Tastepad' : window.location.protocol + '/' + window.location.host + '/Tastepad';
     console.log( window.location.origin); 
     console.log(url); 
-	$('#addRecipe').on('submit', function(e){
-        e.preventDefault();
-        // var form = $(this);
-        // var url = form.attr('action');
-        // $.ajax({
-        //    type: "POST",
-        //    url: "include/addRecipe.php",
-        //    data: form.serialize(), // serializes the form's elements.
-        //    success: function(data)
-        //    {
-        //        // alert(data); // show response from the php script.
-        //    }
-        //  });
-     //    $('#ifoftheform').ajaxForm(function(result) {
-     //    // alert('the form was successfully processed');
-    	// });
-		$.ajax({  
-            url: url+"/include/addRecipe.php",  
-            type:"POST",  
-            data:new FormData(this),
-            contentType:false,
-            processData:false,
-            success:function(data)  
-            {
-            	console.log(data);
-            }  
-           }); 
-	});
+	// $('#addRecipe').on('submit', function(e){
+ //        e.preventDefault();
+ //        // var form = $(this);
+ //        // var url = form.attr('action');
+ //        // $.ajax({
+ //        //    type: "POST",
+ //        //    url: "include/addRecipe.php",
+ //        //    data: form.serialize(), // serializes the form's elements.
+ //        //    success: function(data)
+ //        //    {
+ //        //        // alert(data); // show response from the php script.
+ //        //    }
+ //        //  });
+ //     //    $('#ifoftheform').ajaxForm(function(result) {
+ //     //    // alert('the form was successfully processed');
+ //    	// });
+	// 	$.ajax({  
+ //            url: url+"/include/addRecipe.php",  
+ //            type:"POST",  
+ //            data:new FormData(this),
+ //            contentType:false,
+ //            processData:false,
+ //            success:function(data)  
+ //            {
+ //            	console.log(data);
+ //            }  
+ //           }); 
+	// });
 
 });
