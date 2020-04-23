@@ -3,6 +3,15 @@
     <div class="row">
       <div class="col-lg-5">
         <div class="form-group">
+          <div class="err">
+            <?php if (isset($err)&&$err): ?>
+              <?php foreach ($err as $v): ?>
+                <?= $v ?>
+              <?php endforeach ?>
+            <?php endif ?>
+          </div>
+        </div>
+        <div class="form-group">
           <input name="recipe-name" type="text" class="form-control" id="recipe-name" placeholder="Your recipe name here">
         </div>
         <div class="author"> <!-- change to current user -->

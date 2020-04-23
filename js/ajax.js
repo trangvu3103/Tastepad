@@ -1,10 +1,11 @@
 $(document).ready(function($) {
 	console.log("ajax file");
 
-	//Login BTN
+/*	//Login BTN
 	$("#log-in-btn").click(function(event) {
-		/* Act on the event */
+		 // Act on the event 
 		event.preventDefault();
+		console.log('Login');
         $.ajax({
             url: 'include/login.php',
             type: 'POST',
@@ -15,7 +16,8 @@ $(document).ready(function($) {
             	login:1,
             },
         	success: function(response) {
-        		// console.log(response);
+        		console.log(response);
+        		alert(response);
         		$('#login-form .err').text(response.mess);
         		if (!response.err) {
         			var path = location.pathname.split('/');
@@ -29,16 +31,17 @@ $(document).ready(function($) {
         			window.location.href = '../'+app+"/home-page"+get;
         			// var app = path.join('/'); //  if you want the whole thing like '/one/two/three'
 
-        		}
-            	// if (response.err) {
-             //    	$('.err').text('');
+        		}else{
+                	$('.err').text('');
+                };
         	},    
         });
-	});
-
+	});*/
+/*
 	$("#sign-up-btn").click(function(event) {
-		/* Act on the event */
+		 Act on the event 
 		event.preventDefault();
+		console.log('signup');
         $.ajax({
             url: 'include/login.php',
             type: 'POST',
@@ -59,17 +62,18 @@ $(document).ready(function($) {
         			  path.length = path.length - 1;
         			}
         			var app = path[path.length-2]; // if you just want 'three'
-        			// window.location.href = '../'+app+"/home-page";
+        			console.log( '../'+app+"/home-page");
+        			window.location.href = '../'+app+"/home-page";
         			// window.location.href = "http://example.com/new_url";
+        		}else{
+                	$('.err').text('');
         		}
-            	// if (response.err) {
-             //    	$('.err').text('');
         	},    
         });
 	});
 	var url = window.location.origin ? window.location.origin + '/Tastepad' : window.location.protocol + '/' + window.location.host + '/Tastepad';
     console.log( window.location.origin); 
-    console.log(url); 
+    console.log(url); */
 	// $('#addRecipe').on('submit', function(e){
  //        e.preventDefault();
  //        // var form = $(this);

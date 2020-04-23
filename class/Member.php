@@ -13,11 +13,11 @@ class Member extends User
   // protected $conn; 
 
   //Member's Variable:
-  public $UID;
-  public $UName;
-  public $URole;
-  public $UAvatar;
-  public $URecipe;
+  protected $UID;
+  protected $UName;
+  protected $URole;
+  protected $UAvatar;
+  protected $URecipe;
   // public $userEmail;
   // public $userAvatar;
   // public $user_info; // an array use for collect database
@@ -78,7 +78,11 @@ class Member extends User
       header("Location:home-page.php");
       return 1;
     }
-    $this->URecipe->addRecipe($RName,$RBio,$RImgs,$author,$RIngredients,$RSteps);
+    if($this->URecipe->addRecipe($RName,$RBio,$RImgs,$author,$RIngredients,$RSteps)){
+      $this->err = $this->URecipe->err;
+      return 1; 
+    }
+    return 0;
   }
 
   //Update Recipe
@@ -100,9 +104,57 @@ class Member extends User
     
   }
 
-  public function vote($contestID, $RID)
+  public function comment($RID, $UID, $comment)
   {
-    
+    if (!$UID||!$this->findUserByID($UID)) {
+      $this->err = "Error! No User found";
+      return 1;
+    }
+
+    if (!$RID||!$this->URecipe->findRecipeByID($RID)) {
+      $this->err = "Error! No Recipe found";
+      return 1;
+    }
+
+    if (!$comment) {
+      return 1;
+    }
+
+    $sql="INSERT INTO comments VALUES ('$UID','$RID','$comment',DEFAULT,DEFAULT)";
+    $result = $this->conn->query($sql);
+
+    return ($result)?0:1;
+  }
+
+  public function getCommentByRIDUID($RID, $UID)
+  {
+    if (!$UID||!$this->findUserByID($UID)) {
+      $this->err = "Error! No User found";
+      return 1;
+    }
+
+    if (!$RID||!$this->URecipe->findRecipeByID($RID)) {
+      $this->err = "Error! No Recipe found";
+      return 1;
+    }
+
+    $sql="INSERT INTO comments VALUES ('$UID','$RID','$comment',DEFAULT,DEFAULT)";
+    $result = $this->conn->query($sql);
+
+    return ($result)?0:1;
+  }
+
+  public function getCommentsByRID($RID)
+  {
+    if (!$RID||!$this->URecipe->findRecipeByID($RID)) {
+      $this->err = "Error! No Recipe found";
+      return 1;
+    }
+
+    $sql="INSERT INTO comments VALUES ('$UID','$RID','$comment',DEFAULT,DEFAULT)";
+    $result = $this->conn->query($sql);
+
+    return ($result)?0:1;
   }
 
   //SAVED AND LKE FOR RECIPE FUNCTION

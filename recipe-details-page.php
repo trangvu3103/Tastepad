@@ -4,6 +4,14 @@ if (isset($_GET['rid'])):
   $rid = $_GET['rid'];
   $recipe = new Recipe;
 
+  if (isset($_POST['cmt'])) {
+    if (empty($member)) {
+      $member = new Member;
+      $member->comment($rid, $_POST['uid'], $_POST['comment']);
+    }
+
+  }
+
   //GET RECIPE BY RECIPE ID
   $recipes = $recipe->findRecipeByID($rid);
   //CHEFCK FOR AVAIlABLE RECIPE DETAILS
@@ -16,7 +24,7 @@ if (isset($_GET['rid'])):
       <h1><?php echo $Rinfo["Name"]; ?></h1>
       <div class="author">
         <?php if (isset($Rinfo["avatar"]) && $Rinfo["avatar"]):?>
-          <img src="<?php echo $Rinfo["avatar"]; ?>" alt="">
+          <img src="<?php echo getImgHP($Rinfo["avatar"]); ?>" alt="">
         <?php else:?>
           <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
         <?php endif; ?>
@@ -38,15 +46,23 @@ if (isset($_GET['rid'])):
           <li data-target="#carousel-example-generic" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
-          <div class="carousel-item active">
-            <img src="img\food\magical-green-falafels-15.jpg" alt="First slide">
-          </div>
-          <div class="carousel-item">
-            <img src="img\food\magical-green-falafels-15.jpg" alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img src="img\food\magical-green-falafels-15.jpg" alt="Third slide">
-          </div>
+          <?php if ($Rinfo['imgs']): ?>
+            <?php foreach ($Rinfo['imgs'] as $k => $v):?>
+              <div class="carousel-item <?php echo ($k==0)?'active':'' ?>">
+                <img src="<?= getImgHP($v['recipeImageDestination']) ?>" alt="First slide">
+              </div>
+            <?php endforeach ?>
+          <?php else: ?>
+            <div class="carousel-item active">
+              <img src="img\food\magical-green-falafels-15.jpg" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img src="img\food\magical-green-falafels-15.jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+              <img src="img\food\magical-green-falafels-15.jpg" alt="Third slide">
+            </div>
+          <?php endif ?>
         </div>
         <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
           <span class="icon-prev" aria-hidden="true"></span>
@@ -59,6 +75,7 @@ if (isset($_GET['rid'])):
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col-lg-3 ingre">
       <div>Ingredients</div>
@@ -75,13 +92,19 @@ if (isset($_GET['rid'])):
     <div class="col-lg-9 cook ls">
       <div>Cooking</div>
       <?php if(isset($Rinfo["steps"]) && $Rinfo["steps"]): ?>
-          <?php foreach ($Rinfo["steps"] as $steps): ?>
+          <?php 
+          // $stepID =0;
+          foreach ($Rinfo["steps"] as $key => $steps):?>
             <div class="step">
-              <div>Step <?php echo $steps['stepID']; ?></div>
-              <div><?php echo $steps['stepDes']; ?></div>
               <div class="step-img">
-                <img src="img\food\magical-green-falafels-7.jpg" alt="">
-                <img src="img\food\magical-green-falafels-7.jpg" alt="">
+                <div>Step <?php echo $steps['stepID']; ?></div>
+                <div><?php echo $steps['stepDes']; ?></div>
+                <?php if ($steps['stepImageDestination']): ?>
+                  <?php foreach ($steps['stepImageDestination'] as $v): ?>
+                    <img src="<?= getImgHP($v) ?>" alt="">
+                    
+                  <?php endforeach ?>
+                <?php endif ?>
               </div>
             </div>
           <?php endforeach; ?>
@@ -130,11 +153,14 @@ if (isset($_GET['rid'])):
         <?php endif; ?>
       <div><?= $Rinfo["author"]; ?></div>
     </div>
-    <form>
+    <form action="" method="POST">
       <div class="form-group">
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Let's share your thought!"></textarea>
+        <input type="text" class="d-none" value="<?php echo $_SESSION['uid'] ?>" name="uid">
       </div>
-      <button type="button" name="button">Comment now</button>
+      <div class="form-group">
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Let's share your thought!" name="comment"></textarea>
+      </div>
+      <button type="submit" name="cmt">Comment now</button>
     </form>
   </div>
   <!-- /comment form -->
@@ -156,8 +182,6 @@ if (isset($_GET['rid'])):
             </div>
           </div>
         <?php endforeach; ?>
-    <?php else: ?>
-      <p>404 No Steps-by-steps found!</p>
     <?php endif; ?>
     </div>
     <div class="btn-show-more">

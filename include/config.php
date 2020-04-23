@@ -15,16 +15,17 @@ if(!isset($_SESSION['isLoggin']) || empty($_SESSION)) {
   $_SESSION['role'] =0;
 }
 
-if(isset($_GET['isLoggin'])&&!empty($_GET['isLoggin'])){
-  $_SESSION['uid'] = $_GET['uid'];
-  $_SESSION['name'] = $_GET['name'];
-  $_SESSION['avartar'] = $_GET['avartar'];
-  $_SESSION['isLoggin'] = $_GET['isLoggin'];
-  $_SESSION['role'] = $_GET['role'];
-  $member = new Member;
-  header('Location: home-page');
-}
+// if(isset($_GET['isLoggin'])&&!empty($_GET['isLoggin'])){
+//   $_SESSION['uid'] = $_GET['uid'];
+//   $_SESSION['name'] = $_GET['name'];
+//   $_SESSION['avartar'] = $_GET['avartar'];
+//   $_SESSION['isLoggin'] = $_GET['isLoggin'];
+//   $_SESSION['role'] = $_GET['role'];
+//   $member = new Member;
+//   header('Location: home-page');
+// }
 
+// var_dump($_SESSION);
 $currentPage = basename($_SERVER['SCRIPT_FILENAME'], ".php");
 
 function restyle_text($input){
@@ -59,6 +60,12 @@ function readmore($string, $num = 200)
         $string .= '...';
     }
     echo $string;
+}
+
+function getImgHP($dest)
+{
+	$rm = [0=>'',1=>'wamp64',2=>'www',3=>'Tastepad'];
+	return "../" . implode("/",array_diff(explode("/",parse_url($dest)['path']),$rm));
 }
 
  ?>

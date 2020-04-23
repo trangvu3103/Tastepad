@@ -1,4 +1,9 @@
 <?php
+foreach (glob($_SERVER['DOCUMENT_ROOT']."/Tastepad/class/*.php") as $filename)
+{
+    include_once $filename;
+}
+
 $recipe = new Recipe;
 $recipes = $recipe->getAllRecipes();
 if ($recipes):

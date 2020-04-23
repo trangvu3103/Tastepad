@@ -7,7 +7,11 @@ if (!(isset($_SESSION['isLoggin']) && $_SESSION['isLoggin'])):
 else:
 
 $arr = [];
+$err;
 
+if (empty($member)) {
+	$member = new Member;
+}
 if (isset($_POST['add_recipe'])) {
 	foreach($_FILES as $k => $v){
 	  if (stripos($k, 'recipestepimg')===0) {
@@ -17,8 +21,12 @@ if (isset($_POST['add_recipe'])) {
 	};
 
 	$recipe = new Recipe;
-	$member->addRecipe($_POST['recipe-name'], $_POST['short-description'], $_FILES["recipeimg"], $_POST['uid'], $_POST['ingre'], $arr); 
-	
+	if($member->addRecipe($_POST['recipe-name'], $_POST['short-description'], $_FILES["recipeimg"], $_POST['uid'], $_POST['ingre'], $arr)){
+		$err = $member->err;
+
+	}else{
+		header("location:home-page.php");
+	}
 }
 	
 ?>

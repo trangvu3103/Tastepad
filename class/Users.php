@@ -22,16 +22,20 @@ class user
     $this->err=[];
   }
 
+  public function setSession()
+  {
+      Session::set('uid', $this->user_info['userID']);
+      Session::set('name', $this->user_info['userName']);
+      Session::set('avartar', $this->user_info['userAvatar']);
+      Session::set('isLoggin', true);
+      Session::set('role', $this->user_info['userRole']);
+  }
+
   public function register($email = null, $fullName = null, $pw = null, $pw1 = null){
     $verifyCreateAccount = $this->verifyCreateAccount($email, $fullName, $pw, $pw1);
     if($verifyCreateAccount==0){
       $this->createAccount($email, $fullName, $pw);
-      // Session::set('user_ID', $this->user_info['userID']);
-      // Session::set('user_name', $this->user_info['userName']);
-      // Session::set('avartar', $this->user_info[' userAvatar']);
-      // Session::set('isLoggin', true);
-      // Session::set('role', $this->user_info['userRole']);
-
+      $this->setSession();
       // header('Location: home-page.php');
       return 0;
     }
@@ -46,12 +50,7 @@ class user
   public function login($email = null, $password = null){
     $verifyLogin = $this->verifyLogin($email, $password);
     if($verifyLogin==0){
-      // Session::set('user_ID', $this->user_info['userID']);
-      // Session::set('user_name', $this->user_info['userName']);
-      // Session::set('avartar', $this->user_info['userAvatar']);
-      // Session::set('isLoggin', true);
-      // Session::set('role', $this->user_info['userRole']);
-      // header('Location:home-page.php');
+      $this->setSession();      // header('Location:home-page.php');
       return 0;
     }
     //when error occur delete connection?
@@ -64,32 +63,32 @@ class user
 
   public function verifyLogin($email = null, $password = null){
     if (!$email) {
-      $this->err[] = "Please enter your email";
+      $this->err = "Please enter your email";
       return 1;
     }
     
     if (!$email || !filter_var($email,FILTER_VALIDATE_EMAIL)) {
-      $this->err[] = "Invalid email. Please re-enter Email";
+      $this->err = "Invalid email. Please re-enter Email";
       return 1;
     }
     
     if(!$this->findEmail($email)){
-      $this->err[] = "Email not found. Please re-enter Email";
+      $this->err = "Email not found. Please re-enter Email";
       return 1;
     }
     
     if (!$password) {
-      $this->err[] = "Please enter your password";
+      $this->err = "Please enter your password";
       return 1;
     }
 
     if(!password_verify($password, $this->user_info['userPassword'])){
-      $this->err[] = (password_verify($password, $this->user_info['userPassword'])."Wrong password. Please enter your password again");
+      $this->err = (password_verify($password, $this->user_info['userPassword'])."Wrong password. Please enter your password again");
       return 1;
     }
 
     if($this->user_info['lockStatus']){
-      $this->err[] = "Failed to login, the account has been locked";
+      $this->err = "Failed to login, the account has been locked";
       return 1;
     }
 
@@ -98,42 +97,42 @@ class user
 
   public function verifyCreateAccount($email = null, $fullName = null, $pw = null, $pw1 = null){
     if (!$email) {
-      $this->err[] = "Please enter your email";
+      $this->err = "Please enter your email";
       return 1;
     }
     
     if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
-      $this->err[]="Invalid email. Please re-enter Email";
+      $this->err="Invalid email. Please re-enter Email";
       return 1;
     }
 
     if($this->findEmail($email)){
-      $this->err[] = "This email has been registered. Please re-enter Email";
+      $this->err = "This email has been registered. Please re-enter Email";
       return 1;
     }
 
     if (!$fullName || strlen($fullName)<1) {
-      $this->err[] = "Please enter your full name";
+      $this->err = "Please enter your full name";
       return 1;
     }
     
     if($this->findUserName($fullName)){
-      $this->err[] = "This name has been registered. Please re-enter the name";
+      $this->err = "This name has been registered. Please re-enter the name";
       return 1;
     }
     
     if (!$pw) {
-      $this->err[] = "Please enter your password";
+      $this->err = "Please enter your password";
       return 1;
     }
     
     if (!$pw1) {
-      $this->err[] = "Please enter the password again";
+      $this->err = "Please enter the password again";
       return 1;
     }
 
     if($pw != $pw1){
-      $this->err[] = "The password and re-enter password do not match. Please enter the Re-enter password again";
+      $this->err = "The password and re-enter password do not match. Please enter the Re-enter password again";
       return 1;
     }
 
@@ -146,7 +145,7 @@ class user
     $pw = password_hash($pw, PASSWORD_DEFAULT);
     $sql="INSERT INTO users values(DEFAULT, '$fullName', '$email', '$pw', '', '', '', 1, DEFAULT, DEFAULT, DEFAULT)";
     $result = $this->conn->query($sql);
-    return ($result && $result->num_rows)?$result->num_rows:false;
+    return ($result && isset($result->num_rows))?$result->num_rows:false;
   }
 
   public function findEmail($email=null)

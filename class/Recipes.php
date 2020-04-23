@@ -74,12 +74,16 @@ class Recipe
   {
     $sql = "SELECT users.userAvatar, users.userName, recipes.*  FROM recipes, users WHERE recipes.recipeID = '$RID' and recipes.userID = users.userID ";
     $result = $this->conn->query($sql);
+    $sql = "SELECT  recipeImageDestination FROM recipeimages WHERE recipeID = '$RID'";
+    $result1 = $this->conn->query($sql);
     if ($result) {
       $this->Rinfo = $result->fetch_assoc();
+      $this->Rinfo += ["imgs" => $result1->fetch_all(MYSQLI_ASSOC)];
+
       $this->Rinfo += ["steps" => $this->RSteps->getStepsOfRecipeID($RID)];
       $this->Rinfo += ["ingredients" => $this->RIngredients->getIngredientsByRID($RID)];
       $this->Rinfo += ["comments" => $this->Rcmts->getCommentsByRID($RID)];
-      $this->Rinfo = ["Name" => $this->Rinfo["recipeName"], "Des" => $this->Rinfo["recipeDes"], "author" => $this->Rinfo["userName"], "AID" => $this->Rinfo["userID"], "avatar" => $this->Rinfo["userAvatar"], "liked" => $this->Rinfo["recipeLiked"], "steps" => $this->Rinfo["steps"], "ingredients" => $this->Rinfo["ingredients"], "comments" => $this->Rinfo["comments"]];
+      $this->Rinfo = ["Name" => $this->Rinfo["recipeName"], "Des" => $this->Rinfo["recipeDes"], "author" => $this->Rinfo["userName"], "AID" => $this->Rinfo["userID"], "avatar" => $this->Rinfo["userAvatar"], "liked" => $this->Rinfo["recipeLiked"], "imgs" => $this->Rinfo["imgs"], "steps" => $this->Rinfo["steps"], "ingredients" => $this->Rinfo["ingredients"], "comments" => $this->Rinfo["comments"]];
       //return $result->fetch_assoc();
     }
     return ($result && $result->num_rows)?$this->Rinfo:false;
@@ -122,8 +126,7 @@ class Recipe
 
     // SET FILE IMG AND FILE LOCATION FOR ADDING
     $this->RimgFile->setFile($RImgs);
-
-    if(empty($this->RimgFile->move(realpath('../img/test/')))){
+    if(empty($this->RimgFile->move(realpath('img/test')))){
       $RimgDest = $this->RimgFile->getFileDestination();
       // GET IMG ID
       $ID = $this->getRIIDByRID($RID)?(intval($this->RIinfo['recipeImageID'])+1):1;
@@ -143,7 +146,6 @@ class Recipe
 
     $this->addIngredients($RID, $RIngredients);
     if ($this->addSteps($RID, $RSteps)){
-      $result = $this->conn->rollback($sql);
       return 1;
     }
 

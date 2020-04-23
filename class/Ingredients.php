@@ -30,7 +30,7 @@ class Ingredient
     if ($result) {
       $fetch = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($fetch as $info) {
-        $this->Iinfo[] = $info[0];
+        $this->Iinfo[] = $info['ingredientNameAndAmoount'];
       }
 
     }

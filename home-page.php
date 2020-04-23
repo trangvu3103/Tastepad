@@ -1,4 +1,5 @@
 <?php include 'include/header.php'; ?>
+<?php include 'include/login.php'; ?>
 <section id="banner-sec">
   <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">

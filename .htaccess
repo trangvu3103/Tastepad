@@ -6,5 +6,6 @@ RewriteEngine on
 
 #RewriteRule ^user/([0-9]+) user.php?uid=$1
 RewriteRule ^recipe/([0-9]+) recipe-details-page.php?rid=$1
-# RewriteRule ^contest/([0-9]+) recipe-details-page.php?cid=$1
-
+RewriteRule ^contest/([0-9]+) contest-details.php?cid=$1
+RewriteRule ^contest/ home-page.php?page=contest
+RewriteRule ^recipe/([a-z]+) home-page.php?page=recipe&cat=$1

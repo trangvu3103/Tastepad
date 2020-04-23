@@ -28,10 +28,24 @@ class Step
 
   public function getStepsOfRecipeID($RID)
   {
-    $sql = "SELECT stepID, stepDes FROM steps WHERE steps.recipeID = '$RID' ORDER BY stepID";
+    $sql = "SELECT steps.stepID, steps.stepDes, stepimages.stepImageDestination FROM steps, stepimages WHERE steps.recipeID = '$RID' and steps.stepID = stepimages.stepID ORDER BY stepID ASC";
     $result = $this->conn->query($sql);
     if ($result) {
       $this->Sinfo = $result->fetch_all(MYSQLI_ASSOC);
+      foreach ($this->Sinfo as $k => $v) {
+        if (!$k) {
+          $stepID = $v['stepID'];
+        }
+        if($k!=0 && $this->Sinfo[$k-1]['stepID'] == $v['stepID']){
+          $result1[$stepID]['stepImageDestination'][] = $v['stepImageDestination'];
+        }else {
+          $stepID = $v['stepID'];
+          $result1[$stepID] = ['stepID' => $v['stepID'], 'stepDes' => $v['stepDes']];
+          $result1[$stepID]['stepImageDestination'][] = $v['stepImageDestination'];        
+        }
+      }
+      $this->Sinfo = $result1;
+
     }
     return ($result && $result->num_rows)?$this->Sinfo:false;
   }
@@ -50,7 +64,7 @@ class Step
     // SET FILE IMG AND FILE LOCATION FOR ADDING
     $this->SImgs->setFile($RStep['stepImgs']);
 
-    if(empty($this->SImgs->move(realpath('../img/test/')))){
+    if(empty($this->SImgs->move(realpath('img/test/')))){
       $SImgDest = $this->SImgs->getFileDestination();
       // ADDING IMG
       foreach ($SImgDest as $k => $v) {
