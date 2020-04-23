@@ -1,5 +1,5 @@
 <?php include 'include/header.php'; ?>
-
+<?php include 'include/form/choose-recipe-form.php'; ?>
 <section id="contest-details-sec">
   <div class="row">
     <div class="col-lg-7 contest-banner">
