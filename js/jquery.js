@@ -27,7 +27,19 @@ $(document).ready(function() {
     step += '</div>';
     $(this).before(step);
   });
+
   $(document).on('click', '.btn-remove-step', function () {
       $(this).closest('.step').remove();
+  });
+
+  $('#choose-recipe-form').hide();
+  $('#choose-recipe-closer').click(function() {
+    $("#choose-recipe-form").fadeOut();
+  });
+  $('#sent-recipe').click(function() {
+    $("#choose-recipe-form").fadeIn();
+  });
+  $('.choose-recipe-wrapper').find('.recipe-card').click(function () {
+    $("#choose-recipe-form").fadeOut();
   });
 })
