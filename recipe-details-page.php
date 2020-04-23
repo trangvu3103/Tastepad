@@ -34,7 +34,7 @@ if (isset($_GET['rid'])):
         <?php echo $Rinfo['Des']; ?>
       </div>
       <div class="like">
-        <div><?php echo restyle_text($Rinfo['liked']); ?></div>
+        <div class="likeNum"><?php echo restyle_text($Rinfo['recipeLiked']); ?></div>
           <img src="<?php echo root; ?>img\icon\icons8-heart-96.png" alt="">
       </div>
     </div>

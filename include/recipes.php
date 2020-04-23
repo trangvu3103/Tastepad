@@ -36,7 +36,7 @@ if ($recipes):
           <div><?= $recipe['userName'] ?></div>
         </div>
         <div class="like" data-rid="<?= $recipe['recipeID'] ?>">
-          <div><?php echo restyle_text($recipe['recipeLiked']); ?></div>
+          <div class="likeNum"><?php echo restyle_text($recipe['recipeLiked']); ?></div>
           <img src="img\icon\icons8-heart-96.png" alt="">
         </div>
       </div>

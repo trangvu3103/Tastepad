@@ -52,7 +52,7 @@ class Recipe
 
   public function getAllRecipesFromNRows($offset=0, $no_of_recipe_per_page=10)
   {
-    $sql = "SELECT recipeimages.recipeImageDestination, recipes.*, users.userName, users.userAvatar FROM recipes, users, recipeimages WHERE recipes.userID = users.userID and recipeimages.recipeID = recipes.recipeID LIMIT $offset, $no_of_recipe_per_page";
+    $sql = "SELECT recipeimages.recipeImageDestination, recipes.*, users.userName, users.userAvatar FROM recipes, users, recipeimages WHERE recipes.userID = users.userID and recipeimages.recipeID = recipes.recipeID ORDER BY recipes.recipeID ASC LIMIT $offset, $no_of_recipe_per_page";
     $result = $this->conn->query($sql);
     if ($result) {
       $result1=[];
@@ -64,13 +64,14 @@ class Recipe
         if($i && $this->Rinfo[$i-1]['recipeID'] == $this->Rinfo[$i]['recipeID']){
           $result1[$recipeID]['recipeImageDestination'][] = $this->Rinfo[$i]['recipeImageDestination'];
         }else {
+          $like = intval($this->showLikedNumOfRID($this->Rinfo[$i]['recipeID']));
           $recipeID = $this->Rinfo[$i]['recipeID'];
-          $result1[$recipeID] = ['recipeID' => $this->Rinfo[$i]['recipeID'], 'recipeName' => $this->Rinfo[$i]['recipeName'], 'recipeDes' => $this->Rinfo[$i]['recipeDes'], 'recipeLiked' => 0 , 'userID' => $this->Rinfo[$i]['userID'], 'userName' => $this->Rinfo[$i]['userName'], 'userAvatar' => $this->Rinfo[$i]['userAvatar']];
+          $result1[$recipeID] = ['recipeID' => $this->Rinfo[$i]['recipeID'], 'recipeName' => $this->Rinfo[$i]['recipeName'], 'recipeDes' => $this->Rinfo[$i]['recipeDes'], 'recipeLiked' => $like, 'userID' => $this->Rinfo[$i]['userID'], 'userName' => $this->Rinfo[$i]['userName'], 'userAvatar' => $this->Rinfo[$i]['userAvatar']];
           $result1[$recipeID]['recipeImageDestination'][] = $this->Rinfo[$i]['recipeImageDestination'];        
         }
-      }
+      };
       $this->Rinfo = $result1;      
-    }
+    };
     return ($result && $result->num_rows)?$this->Rinfo:false;
   }
 
@@ -225,22 +226,21 @@ class Recipe
 
   public function likeRecipe($RID, $UID)
   {
-    if (!$RID||$this->findRecipeByID($RID)) {
+    if (!$RID||!$this->findRecipeByID($RID)) {
       $this->err = "Error! Recipe not found";
       return 1;
     }
     
     $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
     $result = $this->conn->query($sql);
-    if ($result) {
+    if ($result->num_rows) {
       return 1;
     }
+
     $sql="INSERT INTO likedrecipes VALUES ('$RID','$UID',DEFAULT,DEFAULT)";
     $result = $this->conn->query($sql);
-    // if ($result) {
-    //   $this->RIinfo = $result->fetch_assoc();
-    //   //return $result->fetch_assoc();
-    // }
+    $this->err = $this->showLikedNumOfRID($RID);
+    return 0;
   }
 
   public function showLikedNumOfRID($RID)
@@ -248,10 +248,10 @@ class Recipe
     $sql="SELECT count(userID) AS liked FROM likedrecipes WHERE RecipeID = '$RID'";
     $result = $this->conn->query($sql);
     if ($result) {
-      $this->Rinfo = $result->fetch_assoc();
+      $result = $result->fetch_assoc();
     }
 
-    return $this->Rinfo['liked'];
+    return $result['liked'];
     
   }
   public function saveRecipe($RID)
@@ -259,27 +259,23 @@ class Recipe
     
   }
 
-  public function unlikeRecipe($RID, $UID)
+  public function dislikeRecipe($RID, $UID)
   {
-    if (!$RID||$this->findRecipeByID($RID)) {
+    if (!$RID||!$this->findRecipeByID($RID)) {
       $this->err = "Error! Recipe not found";
+      return 1;
     }
-
-    $sql="SELECT recipeLiked FROM recipes WHERE recipeID='$RID'";
+    
+    $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
     $result = $this->conn->query($sql);
-    if ($result) {
-      $this->Rinfo = $result->fetch_assoc();
-      //return $result->fetch_assoc();
+    if ($result->num_rows) {
+      return 1;
     }
-    var_dump($this->Rinfo);
 
-    $sql="UPDATE recipes SET recipeLiked=[value-4], dateModified=[value-9] WHERE recipeID='$RID'";
-    // $result = $this->conn->query($sql);
-    // if ($result) {
-    //   $this->RIinfo = $result->fetch_assoc();
-    //   //return $result->fetch_assoc();
-    // }
-    return ($result->num_rows)?$result->num_rows:false;
+    $sql="DELETE FROM `likedrecipes` WHERE RecipeID = '$RID' and userID = '$UID'";
+    $result = $this->conn->query($sql);
+    $this->err = $this->showLikedNumOfRID($RID);
+    return 0;
   }
 
   public function unsaveRecipe($RID)

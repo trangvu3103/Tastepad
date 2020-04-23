@@ -9,12 +9,38 @@ $(document).ready(function($) {
 		    type: 'POST',
 		    dataType:"json",
 		    data: {
+		    	like:1,
 		    	rid: $(this).data('rid'),
 		    },
 			async: false,
 			success: function(result){
-			      console.log(result);
+			    console.log(result);
+			    if (!result.err){
+				    $('div[data-rid="'+$(this).data('rid')+'"] .likeNum').text(result.mess)
 			    }
+			}
+		});
+		
+	});
+
+	$(".dislike").click(function(event) {
+		/* Act on the event */
+		console.log('like');
+		$.ajax({
+		    url: 'ajax.php',
+		    type: 'POST',
+		    dataType:"json",
+		    data: {
+		    	like:0,
+		    	rid: $(this).data('rid'),
+		    },
+			async: false,
+			success: function(result){
+			    console.log(result);
+			    if (!result.err){
+				    $('div[data-rid="'+$(this).data('rid')+'"] .likeNum').text(result.mess)
+			    }
+			}
 		});
 		
 	});

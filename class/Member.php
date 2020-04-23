@@ -151,7 +151,7 @@ class Member extends User
       return 1;
     }
 
-    // $sql="INSERT INTO comments VALUES ('$UID','$RID','$comment',DEFAULT,DEFAULT)";
+    $sql="INSERT INTO comments VALUES ('$UID','$RID','$comment',DEFAULT,DEFAULT)";
     $result = $this->conn->query($sql);
 
     return ($result)?0:1;
