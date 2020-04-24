@@ -4,8 +4,10 @@ RewriteEngine on
 # RewriteCond %{REQUEST_FILENAME} !-d
 # RewriteCond %{REQUEST_FILENAME} !-f
 
-#RewriteRule ^user/([0-9]+) user.php?uid=$1
-RewriteRule ^recipe/([0-9]+) recipe-details-page.php?rid=$1
-RewriteRule ^contest/([0-9]+) contest-details.php?cid=$1
-RewriteRule ^contest/ home-page.php?page=contest
-RewriteRule ^recipe/([a-z]+) home-page.php?page=recipe&cat=$1
+#RewriteRule ^user/([0-9]+)$ user.php?uid=$1
+RewriteRule ^$ home-page.php
+RewriteRule ^recipe/([0-9]+)$ recipe-details-page.php?rid=$1
+RewriteRule ^contest/([0-9]+)$ contest-details.php?cid=$1
+RewriteRule ^([a-z]+)$ home-page.php?page=recipe&cat=$1
+RewriteRule ^contest$ home-page.php?page=contest
+RewriteRule ^news$ home-page.php?page=news

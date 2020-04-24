@@ -1,106 +1,54 @@
+<?php
+foreach (glob($_SERVER['DOCUMENT_ROOT']."/Tastepad/class/*.php") as $filename)
+{
+    include_once $filename;
+}
+
+$contest = new contest;
+
+//Display post
+$rowperpage = 12;
+
+$row = 0;
+ if(isset($_GET['pageno'])){
+  $row = $_GET['pageno']-1;
+  if($row < 0){
+   $row = 0;
+  }
+ }
+
+$total_count = $contest->getTotalNumPages($rowperpage);
+// selecting rows
+$offset = $row*$rowperpage;
+
+$contests = $contest->getAllContestFromNRows();
+if ($contests):
+ $Cs_length = count($contests);
+  ?>
 <div class="col-lg-9 recipe-ls ls">
-  <div class="row">
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
+  <?php foreach ($contests as $k => $v): ?>
+    <?php if ($k%2==0): ?>
+      <div class="row">
+    <?php endif ?>
+      <div class="col-md-6 contest-card" data-href="contest\<?= $v['contestID'] ?>">
+        <div class="descrip">
+          <?php if ($v['banner']): ?>
+            <img src="<?= getImgHP($v['banner']) ?>" alt="">
+          <?php else: ?>
+            <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
+          <?php endif ?>
+          <div class="descrip-txt">
+            <div><?= readmore($v['contestDes']) ?></div>
+          </div>
+        </div>
+        <h2><?= readmore($v['contestName']) ?></h2>
+        <div class="date">
+          From: <?= date('j M Y',strtotime($v["startDate"]))?> - <?= date('j M Y',strtotime($v["endDate"]))?>
         </div>
       </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
+    <?php if ($k%2==1||$k == $Cs_length-1): ?>
       </div>
-    </div>
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
-        </div>
-      </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
-        </div>
-      </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
-      </div>
-    </div>
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
-        </div>
-      </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
-        </div>
-      </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
-      </div>
-    </div>
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
-        </div>
-      </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
-        </div>
-      </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
-      </div>
-    </div>
-    <div class="col-md-6 contest-card">
-      <div class="descrip">
-        <img src="img\restaurant\Hyatt-hotels_-_Andaz-amsterdam-prinsengracht_-_10_web.jpg" alt="">
-        <div class="descrip-txt">
-          <div>Hyatte - famous with many luxurious hotels around the globe. Not only their service, Hyatte also famous of their top restaurants. In order continue improve their service, the head of Hyatte has held a contest. Compete with others chefs to get your way to the famous hotel!</div>
-        </div>
-      </div>
-      <h2>Hyatt Hotel Cooking Contest</h2>
-      <div class="date">
-        From: 23 Feb 2020 - 23 Mar 2020
-      </div>
-    </div>
-  </div>
+    <?php endif ?>
+  <?php endforeach ?>
 </div>
+<?php endif ?>

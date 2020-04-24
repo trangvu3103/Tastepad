@@ -106,4 +106,30 @@ $(document).ready(function() {
     }
   });
 
+  // CHOOSE RECIPE
+  $(".recipe-card-btn").on('click', function(event) {
+    event.preventDefault();
+    console.log('submit');
+    /* Act on the event */
+    $('#choose-rid-form input[name="rid"]').val($(this).data('rid'));
+    $('#choose-rid-form').submit();
+  });
+
+  $('.recipe-card').on('click', function(event) {
+    event.preventDefault();
+      window.location.href= 'http://localhost/tastepad/'+$(this).data('href');
+  });
+
+  $('.contest-card').on('click', function(event) {
+    event.preventDefault();
+      window.location.href= 'http://localhost/tastepad/'+$(this).data('href');
+  });
+
+  $('.btn-show-more').click(function(event) {
+    event.preventDefault();
+    /* Act on the event */
+
+    
+    
+  });
 })

@@ -1,5 +1,5 @@
 <?php include 'include/header.php'; ?>
-<?php include 'include/login.php'; ?>
+
 <section id="banner-sec">
   <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -55,37 +55,117 @@
       <div class="col-lg-3">
         <div class="categories">
           <div class="head-cate">
-            <a href="#">Recipe</a>
+            <a href="home-page">Recipe</a>
             <ul>
-              <li><a href="#">Breakfast</a></li>
-              <li><a href="#">Brunch</a></li>
-              <li><a href="#">Lunch</a></li>
-              <li><a href="#">Dinner</a></li>
+              <li><a href="breakfast">Breakfast</a></li>
+              <li><a href="brunch">Brunch</a></li>
+              <li><a href="lunch">Lunch</a></li>
+              <li><a href="dinner">Dinner</a></li>
             </ul>
           </div>
           <div class="head-cate">
-            <a href="#">Contest</a>
+            <a href="contest">Contest</a>
           </div>
           <div class="head-cate">
-            <a href="#">News</a>
+            <a href="news">News</a>
           </div>
         </div>
       </div>
       <!-- recipe list, contest list -->
       <?php //include 'include\contests.php';
-        include 'include\recipes.php';
       ?>
+      
+      <?php 
+      if (isset($_GET['page'])&&$_GET['page']=='contest') {
+        include 'include\contests.php';
+        
+      }else{
+        include 'include\recipes.php';
+
+      }
+       ?>
+
     </div>
     <div class="page">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </nav>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <?php 
+              // calculate total pages
+              $total_pages = ceil($total_count / $rowperpage);
+              $i = 1;$prev = 0;
+
+              // Total number list show
+              $numpages = 5;
+              if ($total_pages>1) {
+                
+              // Set previous page number and start page 
+               if(isset($_GET['next'])){
+                $i = $_GET['next']+1;
+                $prev = $_GET['next'] - ($numpages);
+               }
+
+               if($prev <= 0) $prev = 1;
+               if($i == 0) $i=1;
+
+               // Previous button next page number
+                
+                $prevnext = 0;
+                if(isset($_GET['next'])){
+                 $prevnext = ($_GET['next'])-($numpages+1);
+                 if($prevnext < 0){
+                  $prevnext = 0;
+                 }
+                }
+
+               // Previous Button
+                //<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+               echo '<li class="page-item"><a class="page-link" href="?pageno='.$prev.'&next='.$prevnext.'">Previous</a></li>';
+
+               if($i != 1){
+                echo '<li class="page-item"><a href="?pageno='.($i-1).'&next='.$_GET['next'].'"  class="page-link'; 
+                if( ($i-1) == $_GET['pageno'] ){
+                 echo " active";
+                }
+                echo '">'.($i-1).'</a></li>';
+               }
+
+               // Number List
+               for ($shownum = 0; $i<=$total_pages; $i++,$shownum++) {
+                if($i%($numpages+1) == 0){
+                 break;
+                }
+               
+                if(isset($_GET['next'])){ 
+                 echo "<li class='page-item'><a class='page-link' href='?pageno=".$i."&next=".$_GET['next']."'";
+                }else{
+                 echo "<li class='page-item'><a href='?pageno=".$i."' class='page-link";
+                }
+
+                // Active
+                if(isset($_GET['pageno'])){
+                 if ($i==$_GET['pageno']) 
+                  echo " active";
+                 }
+                 echo "'>".$i."</a></li> ";
+                }
+
+                // Set next button
+                $next = $i+$rowperpage;
+                if(($next*$rowperpage) > $total_count){
+                 $next = ($next-$rowperpage)*$rowperpage;
+                }
+
+                // Next Button
+                if( ($next-$rowperpage) < $total_count ){ 
+                 if($shownum == ($numpages)){
+                  echo '<li class="page-item"><a class="page-link" href="?pageno='.$i.'&next='.$i.'">Next</a></li>';
+                 }
+                }
+              }
+            ?>
+
+          </ul>
+        </nav>
     </div>
   </div>
 </section>

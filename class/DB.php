@@ -25,6 +25,10 @@
 	  $this->conn->close();
     }
 
+    public function getErr()
+    {
+      return $this->conn->connect_error;
+    }
  }
 
 ?>

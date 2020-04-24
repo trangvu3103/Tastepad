@@ -1,13 +1,14 @@
+<?php if (isset($_SESSION['isLoggin']) && $_SESSION['isLoggin']):var_dump($_SESSION);?>
 <section id="recipe-form-sec">
   <form class="" action="" method="post" enctype="multipart/form-data" id="addRecipe">
     <div class="row">
       <div class="col-lg-5">
         <div class="form-group">
           <div class="err">
-            <?php if (isset($err)&&$err): ?>
-              <?php foreach ($err as $v): ?>
-                <?= $v ?>
-              <?php endforeach ?>
+            <?php if (isset($err)&&$err):?>
+              <?php //foreach ($err as $v): ?>
+                <?= $err ?>
+              <?php //endforeach ?>
             <?php endif ?>
           </div>
         </div>
@@ -15,16 +16,18 @@
           <input name="recipe-name" type="text" class="form-control" id="recipe-name" placeholder="Your recipe name here">
         </div>
         <div class="author"> <!-- change to current user -->
+          <?php if ($_SESSION['avartar']): ?>
+          <img src="<?= '../'.getImgHP($_SESSION['avartar']) ?>" alt="">
+          <?php else: ?>
           <img src="img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
-          <div>Emmily</div>
+          <?php endif ?>
+          <div><?= $_SESSION['name'] ?></div>
           <!-- <input type="text" name="uid" value="2" disabled class="d-none"> -->
         </div>
         <!-- HIDE GIÙM -->
-        <?php if (isset($_SESSION['isLoggin']) && $_SESSION['isLoggin']): ?>
           <div class="form-group" class="d-none">
-            <input name="uid" type="text" class="form-control" id="uid" class="d-none" value="<?= $_SESSION['uid'] ?>">
+            <input name="uid" type="hidden" class="form-control" id="uid" class="d-none" value="<?= $_SESSION['uid'] ?>">
           </div>
-        <?php endif ?>
         <div class="form-group">
           <textarea class="form-control" id="short-description" rows="4" placeholder="Your short description" name="short-description"></textarea>
         </div>
@@ -66,3 +69,4 @@
     </div>
   </form>
 </section>
+<?php endif ?>

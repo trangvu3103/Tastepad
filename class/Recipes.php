@@ -32,7 +32,7 @@ class Recipe
   public function __construct()
   {
     $this->conn = new DB;
-    $this->err=[];
+    $this->err='';
     $this->RAuthorID = new user;
     $this->RSteps = new Step;
     $this->RIngredients = new Ingredient;
@@ -50,9 +50,9 @@ class Recipe
     return ($result && $result->num_rows)?$this->Rinfo:false;
   }
 
-  public function getAllRecipesFromNRows($offset=0, $no_of_recipe_per_page=10)
+  public function getAllRecipesFromNRows($offset=0, $rowperpage=10)
   {
-    $sql = "SELECT recipeimages.recipeImageDestination, recipes.*, users.userName, users.userAvatar FROM recipes, users, recipeimages WHERE recipes.userID = users.userID and recipeimages.recipeID = recipes.recipeID ORDER BY recipes.recipeID ASC LIMIT $offset, $no_of_recipe_per_page";
+    $sql = "SELECT recipeimages.recipeImageDestination, recipes.*, users.userName, users.userAvatar FROM recipes, users, recipeimages WHERE recipes.userID = users.userID and recipeimages.recipeID = recipes.recipeID ORDER BY recipes.recipeID ASC LIMIT $offset, $rowperpage";
     $result = $this->conn->query($sql);
     if ($result) {
       $result1=[];
@@ -67,7 +67,7 @@ class Recipe
           $like = intval($this->showLikedNumOfRID($this->Rinfo[$i]['recipeID']));
           $checkUIDLike = $this->checkLikedOfRIDUID($this->Rinfo[$i]['recipeID'],$this->Rinfo[$i]['userID']);
           $recipeID = $this->Rinfo[$i]['recipeID'];
-          $result1[$recipeID] = ['recipeID' => $this->Rinfo[$i]['recipeID'], 'recipeName' => $this->Rinfo[$i]['recipeName'], 'recipeDes' => $this->Rinfo[$i]['recipeDes'], 'recipeLiked' => $like, 'checkUserLiked' => $checkUIDLike, 'userID' => $this->Rinfo[$i]['userID'], 'userName' => $this->Rinfo[$i]['userName'], 'userAvatar' => $this->Rinfo[$i]['userAvatar']];
+          $result1[$recipeID] = ['recipeID' => $this->Rinfo[$i]['recipeID'], 'recipeName' => $this->Rinfo[$i]['recipeName'], 'recipeDes' => $this->Rinfo[$i]['recipeDes'], 'recipeLiked' => $like, /*'checkUserLiked' => $checkUIDLike,*/ 'userID' => $this->Rinfo[$i]['userID'], 'userName' => $this->Rinfo[$i]['userName'], 'userAvatar' => $this->Rinfo[$i]['userAvatar']];
           $result1[$recipeID]['recipeImageDestination'][] = $this->Rinfo[$i]['recipeImageDestination'];        
         }
       };
@@ -99,14 +99,14 @@ class Recipe
       $this->Rinfo += ["steps" => $this->RSteps->getStepsOfRecipeID($RID)];
       $this->Rinfo += ["ingredients" => $this->RIngredients->getIngredientsByRID($RID)];
       $this->Rinfo += ["comments" => $this->Rcmts->getCommentsByRID($RID)];
-      $this->Rinfo = ["Name" => $this->Rinfo["recipeName"], "Des" => $this->Rinfo["recipeDes"], "author" => $this->Rinfo["userName"], "AID" => $this->Rinfo["userID"], "avatar" => $this->Rinfo["userAvatar"], "recipeLiked" => intval($this->showLikedNumOfRID($RID)), "checkUserLiked" => $this->checkLikedOfRIDUID($RID,$this->Rinfo['userID']), "imgs" => $this->Rinfo["imgs"], "steps" => $this->Rinfo["steps"], "ingredients" => $this->Rinfo["ingredients"], "comments" => $this->Rinfo["comments"]];
-      //return $result->fetch_assoc();
+      $this->Rinfo = ["Name" => $this->Rinfo["recipeName"], "Des" => $this->Rinfo["recipeDes"], "author" => $this->Rinfo["userName"], "AID" => $this->Rinfo["userID"], "avatar" => $this->Rinfo["userAvatar"], "recipeLiked" => intval($this->showLikedNumOfRID($RID)), /*"checkUserLiked" => $this->checkLikedOfRIDUID($RID,$this->Rinfo['userID']),*/ "imgs" => $this->Rinfo["imgs"], "steps" => $this->Rinfo["steps"], "ingredients" => $this->Rinfo["ingredients"], "comments" => $this->Rinfo["comments"]];
     }
     return ($result && $result->num_rows)?$this->Rinfo:false;
   }
 
   public function addRecipe($RName,$RBio,$RImgs,$author,$RIngredients,$RSteps)
   {
+    var_dump($RName,$RBio,$RImgs,$author,$RIngredients,$RSteps);
     if (!$RName) {
       $this->err = "Người dùng chưa nhập tên món";
       return 1;
@@ -132,29 +132,33 @@ class Recipe
     $sql="SELECT recipeID FROM recipes ORDER BY recipeID DESC";
     $result = $this->conn->query($sql);
     $RID = intval($result->fetch_assoc()['recipeID'])+1;
+    var_dump($RID);
 
     
 
     //ADD RECIPE
-    $sql="INSERT INTO recipes VALUES('$RID','$RName','$RBio',0,'$author',null, null, 0, DEFAULT, DEFAULT)";
+    $sql='INSERT INTO recipes VALUES("'.$RID.'","'.$RName.'","'.$RBio.'","'.$author.'",null, DEFAULT, DEFAULT)';
     $result = $this->conn->query($sql);
-
+    var_dump($result);
     // SET FILE IMG AND FILE LOCATION FOR ADDING
     $this->RimgFile->setFile($RImgs);
     if(empty($this->RimgFile->move(realpath('img/test')))){
       $RimgDest = $this->RimgFile->getFileDestination();
+    var_dump($RimgDest);
       // GET IMG ID
       $ID = $this->getRIIDByRID($RID)?(intval($this->RIinfo['recipeImageID'])+1):1;
+    var_dump($ID);
       // ADDING IMG
       foreach ($RimgDest as $k => $v) {
         $sql="INSERT INTO recipeimages VALUES ('$ID','$RID','$v',DEFAULT,DEFAULT)";
         $result = $this->conn->query($sql);
+    var_dump($result);
         $ID += 1;
       }
 
     }else{
       $this->err = $this->RimgFile->err;
-        $sql="DELETE FROM recipeimages WHERE recipeImageID IN (SELECT TOP 1 recipeImageID FROM recipeimages ORDER BY id DESC)";
+        $sql="DELETE FROM recipes WHERE recipeID IN (SELECT TOP 1 recipeID FROM recipes ORDER BY recipeID DESC)";
         $result = $this->conn->query($sql);
       return 1;
     }
@@ -180,9 +184,12 @@ class Recipe
 
   public function addSteps($RID, $RSteps)
   {
+      var_dump($RSteps);
     foreach ($RSteps as $k => $v) {
+      var_dump($v);
       if($this->RSteps->addStep($RID,$v,$k+1)){
-        $this->err = $this->RSteps->err;
+        $this->err = $this->RSteps->err."for step";
+      var_dump($this->err);
         return 1;
       }
     }
@@ -206,7 +213,6 @@ class Recipe
     $result = $this->conn->query($sql);
     if ($result) {
       $this->Rinfo = $result->fetch_assoc();
-      //return $result->fetch_assoc();
     }
     return ($result->num_rows)?$result->num_rows:false;
   }
@@ -231,12 +237,7 @@ class Recipe
       $this->err = "Error! Recipe not found";
       return 1;
     }
-    
-    // $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
-    // $result = $this->conn->query($sql);
-    // if ($result->num_rows) {
-    //   return 1;
-    // }
+
     if ($this->checkLikedOfRIDUID($RID, $UID)) {
       $this->err = "Error!";
       return 1;
@@ -283,13 +284,7 @@ class Recipe
       $this->err = "Error! Recipe not found";
       return 1;
     }
-    
-    // $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
-    // $result = $this->conn->query($sql);
-    // var_dump($result);
-    // if (!$result->num_rows) {
-    //   return 1;
-    // }
+
     if (!$this->checkLikedOfRIDUID($RID, $UID)) {
       $this->err = "Error!";
       return 1;
@@ -317,9 +312,51 @@ class Recipe
     $result = $this->conn->query($sql);
     if ($result) {
       $this->RIinfo = $result->fetch_assoc();
-      //return $result->fetch_assoc();
     }
     return ($result->num_rows)?$result->num_rows:false;
+  }
+
+  public function getRecipesByUID($UID)
+  {
+    if (!$UID) {
+      $this->err = "Error! No User found.";
+      return -1;
+    }
+
+    $sql = "SELECT recipes.*, users.userID, users.userName, users.userAvatar FROM recipes, users WHERE recipes.userID = '$UID' and recipes.userID = users.userID ORDER BY recipes.dateModified DESC";
+    $result = $this->conn->query($sql);
+    if ($result) {
+      $return = $result->fetch_all(MYSQLI_ASSOC);
+      foreach ($return as $k => $v) {
+        $rid = intval($v['recipeID']);
+        $sql = "SELECT  recipeImageDestination FROM recipeimages WHERE recipeID = '$rid'";
+        $result1 = $this->conn->query($sql);
+        $return[$k]['recipeImageDestination'] = $result1->fetch_assoc()['recipeImageDestination'];
+        $like = intval($this->showLikedNumOfRID($v['recipeID']));
+        $return[$k]['recipeLiked'] = $like;
+        // $checkUIDLike = $this->checkLikedOfRIDUID($v['recipeID'],$v['userID']);
+        // $return[$k]['checkUserLiked'] = $checkUIDLike;
+      }
+    }
+    return ($result->num_rows)?$return:false;
+  }
+
+  public function getTotalNumPages($no_of_records_per_page)
+  {
+    $total_pages_sql = "SELECT COUNT(*) as total FROM recipes";
+    $result = $this->conn->query($total_pages_sql);
+    $fetch = $result->fetch_array();
+    $total_count = $fetch['total'];
+    return $total_count;
+  }
+
+  public function getTotalNumPagesInCID($CID, $no_of_records_per_page)
+  {
+    $total_pages_sql = "SELECT COUNT(*) as total FROM participants WHERE contestID = '$CID'";
+    $result = $this->conn->query($total_pages_sql);
+    $fetch = $result->fetch_array();
+    $total_count = $fetch['total'];
+    return $total_count;
   }
 }
  ?>

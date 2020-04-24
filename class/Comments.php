@@ -37,19 +37,6 @@ class Comment
     return ($result && $result->num_rows)?$this->Iinfo:false;
   }
 
-  public function addIngredients($IName,$RID)
-  {
-
-  }
-
-  public function deleteIngredients($RID)
-  {
-    
-  }
-  public function updateSteps($RID,$IID)
-  {
-    
-  }
 
 }
  ?>

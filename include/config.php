@@ -1,5 +1,6 @@
 <?php
 session_start();
+// session_unset();
 define('root', 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF']) . "/");
 
 include_once dirname(dirname(__FILE__))."/class/sessions.php";
@@ -9,23 +10,20 @@ foreach (glob(dirname(dirname(__FILE__))."/class/*.php") as $filename)
     include_once $filename;
 }
 
-if(!isset($_SESSION['isLoggin']) || empty($_SESSION)) {
-  ## set Session isLoggedIn to = false if not logged in;
-  $_SESSION['isLoggin'] = false;
-  $_SESSION['role'] =0;
+if(isset($_SESSION)&&!empty($_SESSION)) {
+	$member = new Member;
 }
 
-// if(isset($_GET['isLoggin'])&&!empty($_GET['isLoggin'])){
-//   $_SESSION['uid'] = $_GET['uid'];
-//   $_SESSION['name'] = $_GET['name'];
-//   $_SESSION['avartar'] = $_GET['avartar'];
-//   $_SESSION['isLoggin'] = $_GET['isLoggin'];
-//   $_SESSION['role'] = $_GET['role'];
-//   $member = new Member;
-//   header('Location: home-page');
-// }
+if(isset($_GET['isLoggin'])&&!empty($_GET['isLoggin'])){
+  $_SESSION['uid'] = $_GET['uid'];
+  $_SESSION['name'] = $_GET['name'];
+  $_SESSION['avartar'] = $_GET['avartar'];
+  $_SESSION['isLoggin'] = $_GET['isLoggin'];
+  $_SESSION['role'] = $_GET['role'];
+  $member = new Member;
+  header('Location: home-page');
+};
 
-// var_dump($_SESSION);
 $currentPage = basename($_SERVER['SCRIPT_FILENAME'], ".php");
 
 function restyle_text($input){

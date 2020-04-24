@@ -29,6 +29,7 @@ class user
       Session::set('avartar', $this->user_info['userAvatar']);
       Session::set('isLoggin', true);
       Session::set('role', $this->user_info['userRole']);
+      // header('Location: home-page.php');
   }
 
   public function register($email = null, $fullName = null, $pw = null, $pw1 = null){
@@ -36,7 +37,6 @@ class user
     if($verifyCreateAccount==0){
       $this->createAccount($email, $fullName, $pw);
       $this->setSession();
-      // header('Location: home-page.php');
       return 0;
     }
     //when error occur delete connection?
@@ -192,29 +192,12 @@ class user
     return $this->user_info;
   }
 
-  // get and set name for user class
-  public function gsetName ($name=null){
-    if($name!=null){
-      $user_name = $name;
-    }
-    return $user_name;
+  public function countUsers()
+  {
+    $sql="SELECT COUNT(userID) FROM users";
+    $result = $this->conn->query($sql);
+    return $result->fetch_assoc();
+     
   }
-
-  // get and set email for user class
-  public function gsetEmail ($email=null){
-    if($email!=null){
-      $user_email = $email;
-    }
-    return $user_email;
-  }
-
-// get and set role for user class
-  public function gsetRole ($role=null){
-    if($role!=null){
-      $user_role = $role;
-    }
-    return $user_role;
-  }
-
 }
  ?>

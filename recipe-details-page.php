@@ -7,8 +7,9 @@ if (isset($_GET['rid'])):
   if (isset($_POST['cmt'])) {
     if (empty($member)) {
       $member = new Member;
-      $member->comment($rid, $_POST['uid'], $_POST['comment']);
     }
+      $member->comment($rid, $_POST['uid'], $_POST['comment']);
+      var_dump($member->err);
 
   }
 
@@ -17,6 +18,7 @@ if (isset($_GET['rid'])):
   //CHEFCK FOR AVAIlABLE RECIPE DETAILS
   if($recipes):
     $Rinfo = $recipe->getRecipeByID($rid);
+    var_dump($Rinfo);
  ?>
 <section id="detail-sec">
   <div class="row">
@@ -35,7 +37,7 @@ if (isset($_GET['rid'])):
       </div>
       <div class="like">
         <div class="likeNum"><?php echo restyle_text($Rinfo['recipeLiked']); ?></div>
-        <?php if ($Rinfo['recipeLiked']!=0 && $Rinfo['checkUserLiked']): ?>
+        <?php if ($Rinfo['recipeLiked']!=0 && $recipe->checkLikedOfRIDUID($rid,$Rinfo['AID'])): ?>
           <img src="..\img\icon\closer.png" alt="" class="dislike-btn" data-rid="<?= $rid ?>">
         <?php else: ?>
           <img src="..\img\icon\icons8-heart-96.png" alt="" class="like-btn" data-rid="<?= $rid ?>">
@@ -95,6 +97,7 @@ if (isset($_GET['rid'])):
     </div>
     <div class="col-lg-9 cook ls">
       <div>Cooking</div>
+      <?php //var_dump($Rinfo["steps"]); ?>
       <?php if(isset($Rinfo["steps"]) && $Rinfo["steps"]): ?>
           <?php 
           // $stepID =0;
@@ -103,7 +106,7 @@ if (isset($_GET['rid'])):
               <div class="step-img">
                 <div>Step <?php echo $steps['stepID']; ?></div>
                 <div><?php echo $steps['stepDes']; ?></div>
-                <?php if ($steps['stepImageDestination']): ?>
+                <?php if (isset($steps['stepImageDestination'])&&$steps['stepImageDestination']): ?>
                   <?php foreach ($steps['stepImageDestination'] as $v): ?>
                     <img src="<?= '../'.getImgHP($v) ?>" alt="">
                     
@@ -159,7 +162,7 @@ if (isset($_GET['rid'])):
     </div>
     <form action="" method="POST">
       <div class="form-group">
-        <input type="text" class="d-none" value="<?php echo $_SESSION['uid'] ?>" name="uid">
+        <input type="hidden" class="d-none" value="<?php echo $_SESSION['uid'] ?>" name="uid">
       </div>
       <div class="form-group">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Let's share your thought!" name="comment"></textarea>

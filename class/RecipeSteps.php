@@ -23,60 +23,77 @@ class Step
   {
     $this->conn = new DB;
     $this->SImgs = new FileImages;
-    $this->err=[];
+    $this->err='';
   }
 
   public function getStepsOfRecipeID($RID)
   {
-    $sql = "SELECT steps.stepID, steps.stepDes, stepimages.stepImageDestination FROM steps, stepimages WHERE steps.recipeID = '$RID' and steps.stepID = stepimages.stepID ORDER BY stepID ASC";
+    $sql = "SELECT steps.stepID, steps.stepDes FROM steps WHERE steps.recipeID = '$RID' ORDER BY steps.stepID ASC";
     $result = $this->conn->query($sql);
     if ($result) {
     $result1=[];
       $this->Sinfo = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($this->Sinfo as $k => $v) {
-        if (!$k) {
-          $stepID = $v['stepID'];
+        $SID=$v['stepID'];
+        $sql = "SELECT stepImageDestination FROM stepimages WHERE stepID =  and recipeID = '$RID' ORDER BY steps.stepID ASC";
+        $result2 = $this->conn->query($sql);
+        if ($result2) {
+          $fetchcall = $result2->fetch_all(MYSQLI_ASSOC);
+          // $Sinfo[$k]['stepImgs'] =$fetchcall; 
+          $result1[$k]['stepImgs'] =$fetchcall; 
+          
         }
-        if($k!=0 && $this->Sinfo[$k-1]['stepID'] == $v['stepID']){
-          $result1[$stepID]['stepImageDestination'][] = $v['stepImageDestination'];
-        }else {
-          $stepID = $v['stepID'];
-          $result1[$stepID] = ['stepID' => $v['stepID'], 'stepDes' => $v['stepDes']];
-          $result1[$stepID]['stepImageDestination'][] = $v['stepImageDestination'];        
-        }
+        // if (!$k) {
+        //   $stepID = $v['stepID'];
+        // }
+        // if($k!=0 && $this->Sinfo[$k-1]['stepID'] == $v['stepID']){
+        //   $result1[$stepID]['stepImageDestination'][] = $v['stepImageDestination'];
+        // }else {
+        //   $stepID = $v['stepID'];
+        //   $result1[$stepID] = ['stepID' => $v['stepID'], 'stepDes' => $v['stepDes']];
+        //   $result1[$stepID]['stepImageDestination'][] = $v['stepImageDestination'];        
+        // }
 
       }
-      $this->Sinfo = $result1;
+      // $this->Sinfo = $result1;
 
     }
+
     return ($result && $result->num_rows)?$this->Sinfo:false;
   }
 
   public function addStep($RID, $RStep, $SID)
   {
+    var_dump($RID, $RStep, $SID);
     //ADD STEP
+    $this->err='';
     $des = $RStep['step'];
-    $sql="INSERT INTO steps VALUES ('$SID','$des','$RID',DEFAULT,DEFAULT)";
+    $sql='INSERT INTO steps VALUES ("'.$SID.'","'.$des.'","'.$RID.'",DEFAULT,DEFAULT)';
     $result = $this->conn->query($sql);
 
     //ADD STEP IMG
     $SIID = $this->getLastSIIDByRID($SID)?intval($this->Sinfo['stepImageID']):1;
 
     // SET FILE IMG AND FILE LOCATION FOR ADDING
-    $this->SImgs->setFile($RStep['stepImgs']);
+    if($RStep['stepImgs']['name'][0]){
+      $this->SImgs->setFile($RStep['stepImgs']);
 
-    if(empty($this->SImgs->move(realpath('img/test/')))){
-      $SImgDest = $this->SImgs->getFileDestination();
-      // ADDING IMG
-      foreach ($SImgDest as $k => $v) {
-        $sql="INSERT INTO stepimages VALUES ('$SIID','$SID','$v',DEFAULT,DEFAULT)";
-        $result = $this->conn->query($sql);
-        $SIID += 1;
+      if(empty($this->SImgs->move(realpath('img/test/')))){
+        $SImgDest = $this->SImgs->getFileDestination();
+        var_dump($SImgDest);
+        // ADDING IMG
+        foreach ($SImgDest as $k => $v) {
+          $sql='INSERT INTO stepimages VALUES ("'.$SIID.'","'.$SID.'","'.$RID.'","'.$v.'",DEFAULT,DEFAULT)';
+          $result = $this->conn->query($sql);
+        var_dump($result);
+          $SIID += 1;
+        }
+
+      }else{
+        $this->err = $this->SImgs->err;
+        return 1;
       }
 
-    }else{
-      $this->err = $this->SImgs->err;
-      return 1;
     }
     return 0;
   }

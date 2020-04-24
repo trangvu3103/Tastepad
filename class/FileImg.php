@@ -21,7 +21,7 @@ class FileImages
   //function:
   public function __construct()
   {
-    $err=[];
+    $this->err='';
   }
 
   //set file and check for error when upload
@@ -38,7 +38,7 @@ class FileImages
     }
     $this->dest = [];
     $this->errfile=$this->file['error'];
-
+    $this->err='';
   }
 
   //seft-explain
@@ -57,6 +57,9 @@ class FileImages
   public function extentionAllowed()
   {
     foreach ($this->ext as $v) {
+      var_dump($v);
+      var_dump($this->allowed);
+      var_dump(in_array($v,$this->allowed));
       if (!in_array($v,$this->allowed)){
         return false;
       }
@@ -68,6 +71,7 @@ class FileImages
   //move file to new location (in this case our folder)
   public function move($dest)
   {
+    $this->err='';
     if($this->errfile){
       if($this->extentionAllowed()){
         if($this->checksize()){
@@ -78,13 +82,13 @@ class FileImages
             $this->dest[] = $dest1;
           }
         } else{
-          $this->err[]='Image is too large';
+          $this->err='Image is too large';
         }
       }else{
-        $this->err[]= 'Please use file .png, .jpg, .jpeg, .gif';
+        $this->err= 'Please use file .png, .jpg, .jpeg, .gif';
       }
     }else{
-      $this->err[]= 'There is an error loading your file';
+      $this->err= 'There is an error loading your file';
     }
     return $this->err;
 

@@ -1,5 +1,6 @@
 <?php 
 include_once 'config.php';
+// session_unset();
 ?>
  <!DOCTYPE html>
 <html>
@@ -37,7 +38,7 @@ include_once 'config.php';
           <div class="">
             <!-- THIS IS FOR CHECKING AVATAR -->
             <?php if (isset($_SESSION['avartar']) && $_SESSION['avartar']): ?>
-              <img src="<?= $_SERVER['avartar'] ?>" alt="">
+              <img src="<?= getImgHP($_SESSION['avartar']) ?>" alt="">
             <?php else: ?>
               <img src="<?php echo base_url(); ?>/img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
             <?php endif ?>
