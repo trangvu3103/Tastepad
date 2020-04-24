@@ -26,7 +26,7 @@ if (isset($_GET['rid'])):
         <?php if (isset($Rinfo["avatar"]) && $Rinfo["avatar"]):?>
           <img src="<?php echo '../'.getImgHP($Rinfo["avatar"]); ?>" alt="">
         <?php else:?>
-          <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+          <img src="..\img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
         <?php endif; ?>
         <div><a href="./user/<?php echo $Rinfo['AID']; ?>"> <?= $Rinfo["author"] ?></a></div>
       </div>
@@ -35,7 +35,11 @@ if (isset($_GET['rid'])):
       </div>
       <div class="like">
         <div class="likeNum"><?php echo restyle_text($Rinfo['recipeLiked']); ?></div>
-          <img src="<?php echo root; ?>img\icon\icons8-heart-96.png" alt="">
+        <?php if ($Rinfo['recipeLiked']!=0 && $Rinfo['checkUserLiked']): ?>
+          <img src="..\img\icon\closer.png" alt="" class="dislike-btn" data-rid="<?= $rid ?>">
+        <?php else: ?>
+          <img src="..\img\icon\icons8-heart-96.png" alt="" class="like-btn" data-rid="<?= $rid ?>">
+        <?php endif ?>
       </div>
     </div>
     <div class="col-lg-7 recipe-img">
@@ -149,7 +153,7 @@ if (isset($_GET['rid'])):
       <?php if (isset($Rinfo["avatar"]) && $Rinfo["avatar"]):?>
           <img src="<?php echo $Rinfo["avatar"]; ?>" alt="">
         <?php else:?>
-          <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+          <img src="..\img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
         <?php endif; ?>
       <div><?= $Rinfo["author"]; ?></div>
     </div>

@@ -65,8 +65,9 @@ class Recipe
           $result1[$recipeID]['recipeImageDestination'][] = $this->Rinfo[$i]['recipeImageDestination'];
         }else {
           $like = intval($this->showLikedNumOfRID($this->Rinfo[$i]['recipeID']));
+          $checkUIDLike = $this->checkLikedOfRIDUID($this->Rinfo[$i]['recipeID'],$this->Rinfo[$i]['userID']);
           $recipeID = $this->Rinfo[$i]['recipeID'];
-          $result1[$recipeID] = ['recipeID' => $this->Rinfo[$i]['recipeID'], 'recipeName' => $this->Rinfo[$i]['recipeName'], 'recipeDes' => $this->Rinfo[$i]['recipeDes'], 'recipeLiked' => $like, 'userID' => $this->Rinfo[$i]['userID'], 'userName' => $this->Rinfo[$i]['userName'], 'userAvatar' => $this->Rinfo[$i]['userAvatar']];
+          $result1[$recipeID] = ['recipeID' => $this->Rinfo[$i]['recipeID'], 'recipeName' => $this->Rinfo[$i]['recipeName'], 'recipeDes' => $this->Rinfo[$i]['recipeDes'], 'recipeLiked' => $like, 'checkUserLiked' => $checkUIDLike, 'userID' => $this->Rinfo[$i]['userID'], 'userName' => $this->Rinfo[$i]['userName'], 'userAvatar' => $this->Rinfo[$i]['userAvatar']];
           $result1[$recipeID]['recipeImageDestination'][] = $this->Rinfo[$i]['recipeImageDestination'];        
         }
       };
@@ -98,7 +99,7 @@ class Recipe
       $this->Rinfo += ["steps" => $this->RSteps->getStepsOfRecipeID($RID)];
       $this->Rinfo += ["ingredients" => $this->RIngredients->getIngredientsByRID($RID)];
       $this->Rinfo += ["comments" => $this->Rcmts->getCommentsByRID($RID)];
-      $this->Rinfo = ["Name" => $this->Rinfo["recipeName"], "Des" => $this->Rinfo["recipeDes"], "author" => $this->Rinfo["userName"], "AID" => $this->Rinfo["userID"], "avatar" => $this->Rinfo["userAvatar"], "recipeLiked" => $this->showLikedNumOfRID($RID), "imgs" => $this->Rinfo["imgs"], "steps" => $this->Rinfo["steps"], "ingredients" => $this->Rinfo["ingredients"], "comments" => $this->Rinfo["comments"]];
+      $this->Rinfo = ["Name" => $this->Rinfo["recipeName"], "Des" => $this->Rinfo["recipeDes"], "author" => $this->Rinfo["userName"], "AID" => $this->Rinfo["userID"], "avatar" => $this->Rinfo["userAvatar"], "recipeLiked" => intval($this->showLikedNumOfRID($RID)), "checkUserLiked" => $this->checkLikedOfRIDUID($RID,$this->Rinfo['userID']), "imgs" => $this->Rinfo["imgs"], "steps" => $this->Rinfo["steps"], "ingredients" => $this->Rinfo["ingredients"], "comments" => $this->Rinfo["comments"]];
       //return $result->fetch_assoc();
     }
     return ($result && $result->num_rows)?$this->Rinfo:false;
@@ -135,7 +136,7 @@ class Recipe
     
 
     //ADD RECIPE
-    $sql="INSERT INTO recipes VALUES('$RID','$RName','$RBio',0,'$author',null, null, DEFAULT, DEFAULT)";
+    $sql="INSERT INTO recipes VALUES('$RID','$RName','$RBio',0,'$author',null, null, 0, DEFAULT, DEFAULT)";
     $result = $this->conn->query($sql);
 
     // SET FILE IMG AND FILE LOCATION FOR ADDING
@@ -231,16 +232,20 @@ class Recipe
       return 1;
     }
     
-    $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
-    $result = $this->conn->query($sql);
-    if ($result->num_rows) {
+    // $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
+    // $result = $this->conn->query($sql);
+    // if ($result->num_rows) {
+    //   return 1;
+    // }
+    if ($this->checkLikedOfRIDUID($RID, $UID)) {
+      $this->err = "Error!";
       return 1;
     }
 
     $sql="INSERT INTO likedrecipes VALUES ('$RID','$UID',DEFAULT,DEFAULT)";
     $result = $this->conn->query($sql);
-    $this->err = $this->showLikedNumOfRID($RID);
-    return 0;
+    return $this->showLikedNumOfRID($RID);
+    // return 0;
   }
 
   public function showLikedNumOfRID($RID)
@@ -251,9 +256,22 @@ class Recipe
       $result = $result->fetch_assoc();
     }
 
-    return $result['liked'];
+    return $result['liked']?$result['liked']:0;
     
   }
+
+  public function checkLikedOfRIDUID($RID,$UID)
+  {
+    $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
+    $result = $this->conn->query($sql);
+    $result1 = $result->fetch_assoc();
+    if ($result1) {
+      return true;
+    }
+
+    return false;    
+  }
+
   public function saveRecipe($RID)
   {
     
@@ -266,16 +284,21 @@ class Recipe
       return 1;
     }
     
-    $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
-    $result = $this->conn->query($sql);
-    if ($result->num_rows) {
+    // $sql="SELECT * FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
+    // $result = $this->conn->query($sql);
+    // var_dump($result);
+    // if (!$result->num_rows) {
+    //   return 1;
+    // }
+    if (!$this->checkLikedOfRIDUID($RID, $UID)) {
+      $this->err = "Error!";
       return 1;
     }
 
-    $sql="DELETE FROM `likedrecipes` WHERE RecipeID = '$RID' and userID = '$UID'";
+    $sql="DELETE FROM likedrecipes WHERE RecipeID = '$RID' and userID = '$UID'";
     $result = $this->conn->query($sql);
-    $this->err = $this->showLikedNumOfRID($RID);
-    return 0;
+     return $this->showLikedNumOfRID($RID);
+    // return 0;
   }
 
   public function unsaveRecipe($RID)

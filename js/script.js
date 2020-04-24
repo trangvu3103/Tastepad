@@ -52,3 +52,30 @@ Array.prototype.forEach.call(sortOption, function(element) {
     sortBtn.innerHTML = data;
   });
 });
+
+//log href
+function hrefArr()
+{
+var pathArray = window.location.href.split('/');
+console.log(pathArray);
+return pathArray;
+}
+
+function checkHref(item, index) {
+  var arr = ['contest', 'recipe'];
+  return arr.includes(item);
+}
+
+function hasInHrefArr() {
+  var arrh = hrefArr();
+  var found =false;
+  arrh.forEach(function(val, index){
+      console.log(checkHref(val));
+    if(checkHref(val)){
+      found = true;
+    }
+  });
+  return found;
+}
+
+console.log(hasInHrefArr());

@@ -68,4 +68,8 @@ function getImgHP($dest)
 	return implode("/",array_diff(explode("/",parse_url($dest)['path']),$rm));
 }
 
+function base_url()
+{
+  return /*dirname($_SERVER['SCRIPT_FILENAME']);*/'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['PHP_SELF']);
+}
  ?>

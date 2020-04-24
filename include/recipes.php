@@ -35,9 +35,13 @@ if ($recipes):
           <?php endif ?>
           <div><?= $recipe['userName'] ?></div>
         </div>
-        <div class="like" data-rid="<?= $recipe['recipeID'] ?>">
+        <div class="like">
           <div class="likeNum"><?php echo restyle_text($recipe['recipeLiked']); ?></div>
-          <img src="img\icon\icons8-heart-96.png" alt="">
+          <?php if ($recipe['recipeLiked']!=0 && $recipe['checkUserLiked']): ?>
+            <img src="img\icon\closer.png" alt="" class="dislike-btn" data-rid="<?= $recipe['recipeID'] ?>">
+          <?php else: ?>
+            <img src="img\icon\icons8-heart-96.png" alt="" class="like-btn" data-rid="<?= $recipe['recipeID'] ?>">
+          <?php endif ?>
         </div>
       </div>
     </div>

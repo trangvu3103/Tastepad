@@ -161,7 +161,22 @@ class Member extends User
   //User like recipe
   public function likeRecipe($RID, $UID)
   {
-    $this->URecipe->likeRecipe($RID, $UID);
+    $count = $this->URecipe->likeRecipe($RID, $UID);
+    if ($this->URecipe->err) {
+      $this->err = $this->URecipe->err;
+      return -1;
+    }
+    return $count ;
+  }
+
+  public function dislikeRecipe($RID, $UID)
+  {
+    $count = $this->URecipe->dislikeRecipe($RID, $UID);
+    if ($this->URecipe->err) {
+      $this->err = $this->URecipe->err;
+      return -1;
+    }
+    return $count;
   }
 
   public function saveRecipe($RID)

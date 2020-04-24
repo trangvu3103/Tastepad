@@ -53,10 +53,56 @@ $(document).ready(function() {
 //like and unlike
   $('.like').find('img').click(function () {
     var src = $(this).attr("src");
-    if (src == "img\\icon\\closer.png") {
-      $(this).attr('src', "img\\icon\\icons8-heart-96.png");
+    var prefix = '';
+    if (hasInHrefArr()) {
+      prefix = '..\\';
+    }
+    console.log(src);
+    var text = $(this).parent().find('.likeNum');
+    var button = $(this);
+    if (src == "img\\icon\\closer.png" || src == prefix+"img\\icon\\closer.png" ) {
+      console.log(text);
+      $.ajax({
+          url: prefix+'ajax.php',
+          type: 'POST',
+          dataType:"JSON",
+          data: {
+           like:0,
+           rid: $(this).data('rid'),
+          },
+       // async: false,
+       success: function(data){
+           console.log(data);
+           if (data.err==0){
+           // console.log($(this);
+              text.text(data.mess);
+             button.attr('src', prefix+"img\\icon\\icons8-heart-96.png");
+           }
+       }
+      });
     } else {
-      $(this).attr('src', "img\\icon\\closer.png");
+      $.ajax({
+          url: prefix+'ajax.php',
+          type: 'POST',
+          dataType:"JSON",
+          data: {
+           like:1,
+           rid: $(this).data('rid'),
+          },
+       // async: false,
+       success: function(data){
+           console.log(data);
+           if (data.err==0){
+           console.log($(this).parent().find('.likeNum'));
+           // console.log(data);
+              text.text(data.mess);
+              button.attr('src', prefix+"img\\icon\\closer.png");
+           }
+       },
+       error: function(err) {
+         console.log(err);
+       }
+      });
     }
   });
 

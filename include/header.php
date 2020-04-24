@@ -1,6 +1,5 @@
 <?php 
 include_once 'config.php';
-
 ?>
  <!DOCTYPE html>
 <html>
@@ -12,10 +11,10 @@ include_once 'config.php';
     <title>Tastepad</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="<?= root ?>js/jquery.js">
+    <script src="<?php echo base_url(); ?>/js/jquery.js">
     </script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo root; ?>style/style.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo&family=Manrope&display=swap" rel="stylesheet">
   </head>
   <body>
@@ -24,7 +23,7 @@ include_once 'config.php';
       <header>
         <div class="lo-search">
           <div class="logo">
-            <a href="<?= root ?>home-page.php">Tastepad</a>
+            <a href="<?php echo base_url(); ?>/home-page.php">Tastepad</a>
           </div>
           <div class="search-bar-div">
             <form class="search-bar" action="index.html" method="post">
@@ -40,7 +39,7 @@ include_once 'config.php';
             <?php if (isset($_SESSION['avartar']) && $_SESSION['avartar']): ?>
               <img src="<?= $_SERVER['avartar'] ?>" alt="">
             <?php else: ?>
-              <img src="<?php echo root; ?>img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
+              <img src="<?php echo base_url(); ?>/img\user\4fefdd485947492156682910a86c385a.jpg" alt="">
             <?php endif ?>
           </div>
         <?php else: ?>

@@ -1,49 +1,50 @@
 $(document).ready(function($) {
 	console.log("ajax file");
-
-	$(".like").click(function(event) {
+	$(".dislike-btn").click(function(event) {
 		/* Act on the event */
-		console.log('like');
-		$.ajax({
-		    url: 'ajax.php',
-		    type: 'POST',
-		    dataType:"json",
-		    data: {
-		    	like:1,
-		    	rid: $(this).data('rid'),
-		    },
-			async: false,
-			success: function(result){
-			    console.log(result);
-			    if (!result.err){
-				    $('div[data-rid="'+$(this).data('rid')+'"] .likeNum').text(result.mess)
-			    }
-			}
-		});
+		console.log('dislike');
+		// $.ajax({
+		//     url: 'ajax.php',
+		//     type: 'POST',
+		//     dataType:"json",
+		//     data: {
+		//     	like:0,
+		//     	rid: $(this).data('rid'),
+		//     },
+		// 	async: false,
+		// 	success: function(result){
+		// 	    console.log(result);
+		// 	    if (!result.err){
+		// 		    $('div[data-rid="'+$(this).data('rid')+'"] .likeNum').text(result.mess)
+		// 	    }
+		// 	}
+		// });
 		
 	});
 
-	$(".dislike").click(function(event) {
+	$(".like-btn").on("click", function(event) {
+
 		/* Act on the event */
 		console.log('like');
-		$.ajax({
-		    url: 'ajax.php',
-		    type: 'POST',
-		    dataType:"json",
-		    data: {
-		    	like:0,
-		    	rid: $(this).data('rid'),
-		    },
-			async: false,
-			success: function(result){
-			    console.log(result);
-			    if (!result.err){
-				    $('div[data-rid="'+$(this).data('rid')+'"] .likeNum').text(result.mess)
-			    }
-			}
-		});
+		// $.ajax({
+		//     url: 'ajax.php',
+		//     type: 'POST',
+		//     dataType:"json",
+		//     data: {
+		//     	like:1,
+		//     	rid: $(this).data('rid'),
+		//     },
+		// 	async: false,
+		// 	success: function(result){
+		// 	    console.log(result);
+		// 	    if (!result.err){
+		// 		    $('div[data-rid="'+$(this).data('rid')+'"] .likeNum').text(result.mess)
+		// 	    }
+		// 	}
+		// });
 		
 	});
+
 /*	//Login BTN
 	$("#log-in-btn").click(function(event) {
 		 // Act on the event 
